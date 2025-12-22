@@ -12,6 +12,16 @@
     .quick-list { margin:0; padding-left:18px; }
     .quick-list li { margin-bottom:8px; }
     .card-grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); }
+    .jump-links { display:flex; flex-wrap:wrap; gap:8px; }
+    .jump-links a { padding:6px 10px; border-radius:16px; background:#f1f4fb; color:#1c2b4a; text-decoration:none; font-weight:600; font-size:13px; }
+    .jump-links a:hover { background:#e5ebf7; }
+    .process-map { display:grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
+    .process-step { border:1px solid #d9e3f4; border-radius:12px; padding:12px; background:#f8fafc; display:grid; gap:6px; }
+    .step-badge { width:28px; height:28px; border-radius:50%; background:#1c2b4a; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; }
+    .process-step h4 { margin:0; font-size:14px; }
+    .process-step p { margin:0; font-size:12px; color:#2c3d5a; }
+    .legend { display:flex; flex-wrap:wrap; gap:8px; font-size:12px; color:#3b4a68; }
+    .legend span { background:#edf2fb; padding:4px 8px; border-radius:12px; }
   </style>
 </head>
 <body class="page">
@@ -29,11 +39,26 @@
   <main class="container layout-shell">
     <section class="panel card hero">
       <div>
-        <div class="pill">Seattle City Light • OT CSIR</div>
+        <div class="pill">Seattle City Light OT CSIR</div>
         <h1>Process overview and quick reference</h1>
-        <p class="section-sub">High-level view of the CSIR process: what it covers, when to use it, and the spine of activities from preparation through follow-up.</p>
+        <p class="section-sub">High-level view of the CSIR process: what it covers, when to use it, and the backbone activities from preparation through follow-up.</p>
       </div>
       <div class="banner">Use this page as a fast reference. The certification and guided training paths stay gated and tracked separately.</div>
+    </section>
+
+    <section class="panel card" id="nav">
+      <div class="pill inline">Navigate</div>
+      <h2>Jump to what you need</h2>
+      <div class="jump-links">
+        <a href="#scope">Scope</a>
+        <a href="#process-map">Process map</a>
+        <a href="#high-level">Phase details</a>
+        <a href="#quick-guidance">Quick guidance</a>
+      </div>
+      <div class="legend" style="margin-top:10px;">
+        <span>Fast path: check the map, then open guidance.</span>
+        <span>Deep path: open curriculum links for drills.</span>
+      </div>
     </section>
 
     <section class="panel card" id="scope">
@@ -47,12 +72,49 @@
       </ul>
     </section>
 
+    <section class="panel card" id="process-map">
+      <div class="pill inline">Process map</div>
+      <h2>Six-phase spine with key deliverables</h2>
+      <div class="process-map">
+        <div class="process-step">
+          <div class="step-badge">1</div>
+          <h4>Preparation</h4>
+          <p>Plans, access, monitoring, and backups ready.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-badge">2</div>
+          <h4>Identification</h4>
+          <p>Signals validated, severity set, leads notified.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-badge">3</div>
+          <h4>Investigation</h4>
+          <p>Scope confirmed, roles aligned, evidence captured.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-badge">4</div>
+          <h4>Response</h4>
+          <p>Containment and eradication actions approved and logged.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-badge">5</div>
+          <h4>Recovery</h4>
+          <p>Restoration validated, monitoring heightened.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-badge">6</div>
+          <h4>Follow-up</h4>
+          <p>Lessons learned, reporting closed, plan updated.</p>
+        </div>
+      </div>
+    </section>
+
     <section class="panel card" id="high-level">
       <div class="pill inline">High-level workflow</div>
       <h2>Six-phase process at a glance</h2>
       <div class="grid two">
         <div>
-          <h4>Preparation → Identification → Investigation</h4>
+          <h4>Preparation -> Identification -> Investigation</h4>
           <ul class="quick-list">
             <li><strong>Preparation:</strong> Keep plans current, confirm monitoring/logging, and stage backups/images.</li>
             <li><strong>Identification:</strong> Spot signals fast, classify, and notify the right leads.</li>
@@ -60,7 +122,7 @@
           </ul>
         </div>
         <div>
-          <h4>Response → Recovery → Follow-up</h4>
+          <h4>Response -> Recovery -> Follow-up</h4>
           <ul class="quick-list">
             <li><strong>Response:</strong> Contain, eradicate, and document actions with approvals.</li>
             <li><strong>Recovery:</strong> Restore safely, validate systems, and prevent recurrence.</li>
@@ -68,7 +130,6 @@
           </ul>
         </div>
       </div>
-      <div class="banner" style="margin-top:10px;">Move left to right. Each phase feeds the next and preserves auditability.</div>
     </section>
 
     <section class="panel card" id="quick-guidance">
@@ -100,3 +161,6 @@
   </main>
 </body>
 </html>
+
+
+
