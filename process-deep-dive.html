@@ -7,12 +7,13 @@
   <link rel="stylesheet" href="css/theme.css">
   <style>
     .hero { display:grid; gap:12px; }
-    .grid.two { display:grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap:18px; }
+    .grid.two { display:grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap:20px; }
     .layout-shell { max-width: 1200px; }
-    .panel.card { padding:18px 20px; }
-    .section-sub { max-width:70ch; }
+    .container.layout-shell { padding: 28px 0 40px; }
+    .panel.card { padding:22px 24px; }
+    .section-sub { max-width:72ch; }
     .pill.inline { display:inline-block; padding:6px 10px; border-radius:14px; background:#eef2fa; color:#1c2b4a; font-weight:600; }
-    .quick-list { margin:0; padding-left:18px; line-height:1.4; }
+    .quick-list { margin:0; padding-left:18px; line-height:1.55; }
     .quick-list li { margin-bottom:8px; }
     .card-grid { display:grid; gap:14px; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); }
     .jump-links { display:flex; flex-wrap:wrap; gap:8px; }
@@ -25,9 +26,13 @@
     .process-step p { margin:0; font-size:12px; color:#2c3d5a; }
     .legend { display:flex; flex-wrap:wrap; gap:8px; font-size:12px; color:#3b4a68; }
     .legend span { background:#edf2fb; padding:4px 8px; border-radius:12px; }
+    .nav-card { display:grid; gap:12px; }
+    .nav-actions { display:flex; flex-wrap:wrap; gap:10px; }
+    .nav-actions .button { white-space:nowrap; }
     @media (max-width: 720px) {
       .grid.two { grid-template-columns: 1fr; }
       .process-map { grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); }
+      .panel.card { padding:18px 18px; }
     }
   </style>
 </head>
@@ -53,18 +58,23 @@
       <div class="banner">Use this page as a fast reference. The certification and guided training paths stay gated and tracked separately.</div>
     </section>
 
-    <section class="panel card" id="nav">
+    <section class="panel card nav-card" id="nav">
       <div class="pill inline">Navigate</div>
       <h2>Jump to what you need</h2>
+      <p class="section-sub">Start with the process map, then drill into guidance or the full curriculum when you need more detail.</p>
       <div class="jump-links">
         <a href="#scope">Scope</a>
         <a href="#process-map">Process map</a>
         <a href="#high-level">Phase details</a>
         <a href="#quick-guidance">Quick guidance</a>
       </div>
-      <div class="legend" style="margin-top:10px;">
-        <span>Fast path: check the map, then open guidance.</span>
-        <span>Deep path: open curriculum links for drills.</span>
+      <div class="nav-actions">
+        <a class="button" href="csir/curriculum.html">Open full CSIR process</a>
+        <a class="button ghost" href="csir/curriculum.html#module-4">Go to workflow by phase</a>
+      </div>
+      <div class="legend">
+        <span>Fast path: map -> guidance.</span>
+        <span>Deep path: curriculum modules.</span>
       </div>
     </section>
 
