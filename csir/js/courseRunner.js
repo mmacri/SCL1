@@ -14,6 +14,7 @@ import {
 } from './storage.js';
 import { requireRoleAndName } from './router.js';
 import { renderQuiz, bindQuiz } from './quiz.js';
+import { updateEnrollment } from './api-client.js';
 
 const EMBEDDED_MODULE_STEPS = {
   m1: ['mission-control', 'csir-basics'],
@@ -451,6 +452,7 @@ function navigateTo(index) {
   const progress = loadProgress();
   const step = stepsCache[index];
   setActiveStep(step.id);
+  syncEnrollmentStep(step.id);
   refreshStepperState(stepsCache, progress, step.id);
   updateProgressBar(computeProgress(stepsCache, progress));
   bindNavButtons(progress);
@@ -467,6 +469,15 @@ function navigateTo(index) {
   } else {
     renderStep(step, packCache, progress, roleLabelCache);
   }
+}
+
+function syncEnrollmentStep(stepId) {
+  const progress = loadProgress();
+  if (!progress.enrollmentId) return;
+  updateEnrollment(progress.enrollmentId, {
+    lastStepId: stepId,
+    lastActivity: new Date().toISOString()
+  }).catch((err) => console.warn('Enrollment sync failed', err));
 }
 
 function navigateRelative(delta) {

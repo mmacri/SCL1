@@ -1,5 +1,6 @@
 const PROGRESS_KEY = 'scl_csir_progress';
 const NAME_KEY = 'scl_csir_name';
+const EMAIL_KEY = 'scl_csir_email';
 const ROLE_KEY = 'scl_csir_role';
 const MODE_KEY = 'scl_csir_mode';
 const LEGACY_PROGRESS_KEYS = ['sclCsirProgress'];
@@ -20,6 +21,7 @@ function defaultProgress() {
     courseVersion: '1.0',
     roleId: null,
     learnerName: '',
+    learnerEmail: '',
     activeStepId: null,
     viewedSteps: [],
     completedSteps: [],
@@ -30,6 +32,10 @@ function defaultProgress() {
     checklistUnlocked: false,
     certificateId: null,
     completedAt: null,
+    learnerId: null,
+    enrollmentId: null,
+    courseCode: null,
+    cycleYear: null,
     // New shared fields
     completed: [],
     lastRuntimeHash: null,
@@ -54,8 +60,10 @@ function migrateLegacyKeys(baseProgress) {
   });
   // Merge from old name/role storage if present
   const name = localStorage.getItem(NAME_KEY);
+  const email = localStorage.getItem(EMAIL_KEY);
   const role = localStorage.getItem(ROLE_KEY);
   if (name && !progress.learnerName) progress.learnerName = name;
+  if (email && !progress.learnerEmail) progress.learnerEmail = email;
   if (role && !progress.roleId) progress.roleId = role;
 
   // Legacy exam/certificate data
@@ -112,6 +120,12 @@ export function getName() {
   return loadProgress().learnerName || null;
 }
 
+export function getEmail() {
+  const stored = localStorage.getItem(EMAIL_KEY);
+  if (stored) return stored;
+  return loadProgress().learnerEmail || null;
+}
+
 export function getRole() {
   const stored = localStorage.getItem(ROLE_KEY);
   if (stored) return stored;
@@ -122,6 +136,22 @@ export function setNameRole(name, role) {
   const progress = loadProgress();
   progress.learnerName = name ? name.trim() : '';
   progress.roleId = role || null;
+  persist(progress);
+}
+
+export function setLearnerEmail(email) {
+  const progress = loadProgress();
+  progress.learnerEmail = email.trim();
+  persist(progress);
+  localStorage.setItem(EMAIL_KEY, progress.learnerEmail);
+}
+
+export function setEnrollmentInfo({ enrollmentId, learnerId, courseCode, cycleYear }) {
+  const progress = loadProgress();
+  if (enrollmentId) progress.enrollmentId = enrollmentId;
+  if (learnerId) progress.learnerId = learnerId;
+  if (courseCode) progress.courseCode = courseCode;
+  if (cycleYear) progress.cycleYear = cycleYear;
   persist(progress);
 }
 
@@ -236,6 +266,7 @@ export function setCertificateId(id) {
 export function resetProgress() {
   localStorage.removeItem(PROGRESS_KEY);
   localStorage.removeItem(NAME_KEY);
+  localStorage.removeItem(EMAIL_KEY);
   localStorage.removeItem(ROLE_KEY);
   localStorage.removeItem('scl_csir_exam');
   localStorage.removeItem('scl_csir_certificate');

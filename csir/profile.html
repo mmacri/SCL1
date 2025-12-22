@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Learner identity — SCL OT CSIR</title>
+  <title>Learner identity - SCL OT CSIR</title>
+  <meta name="scl-api-base" content="">
   <link rel="stylesheet" href="css/theme.css">
+  <script src="js/api-config.js"></script>
 </head>
 <body class="page">
   <header class="header">
@@ -21,9 +23,11 @@
     <section class="panel card form-card">
       <div class="pill">Required</div>
       <h2 class="section-title">Who is completing this training?</h2>
-      <p class="section-sub">Your name appears on the certificate and verification hash. This stays in your browser.</p>
+      <p class="section-sub">Your name and email appear on the certificate record. This stays in your browser and syncs with the training database.</p>
       <label for="name">Full name</label>
       <input id="name" type="text" placeholder="Jane Doe" autocomplete="name" required>
+      <label for="email">Email address</label>
+      <input id="email" type="email" placeholder="jane.doe@example.com" autocomplete="email" required>
       <div class="footer-actions">
         <a href="role.html" class="button secondary">Back</a>
         <button id="continue" class="button" disabled>Save & continue</button>
@@ -32,20 +36,64 @@
   </main>
 
   <script type="module">
-    import { setLearnerName, loadProgress } from './js/storage.js';
+    import { setLearnerName, setLearnerEmail, loadProgress, setEnrollmentInfo } from './js/storage.js';
+    import { upsertLearner, upsertEnrollment } from './js/api-client.js';
 
     const progress = loadProgress();
     if (!progress.roleId) { window.location.href = 'role.html'; }
     const input = document.getElementById('name');
+    const emailInput = document.getElementById('email');
     const btn = document.getElementById('continue');
     if (progress.learnerName) {
       input.value = progress.learnerName;
-      btn.disabled = false;
     }
-    input.addEventListener('input', (e) => btn.disabled = e.target.value.trim().length < 2);
-    btn.addEventListener('click', () => {
-      if (input.value.trim().length < 2) return;
-      setLearnerName(input.value);
+    if (progress.learnerEmail) {
+      emailInput.value = progress.learnerEmail;
+    }
+    function updateButton() {
+      const okName = input.value.trim().length >= 2;
+      const okEmail = emailInput.value.trim().length >= 5 && emailInput.value.includes('@');
+      btn.disabled = !(okName && okEmail);
+    }
+    updateButton();
+    input.addEventListener('input', updateButton);
+    emailInput.addEventListener('input', updateButton);
+
+    async function resolveCourseMeta() {
+      const res = await fetch('contentpacks/scl-csir/pack.json');
+      const pack = await res.json();
+      const version = pack.course.version || '';
+      const year = Number(version.slice(0, 4)) || new Date().getFullYear();
+      return { courseCode: `CSIR-${year}`, cycleYear: year };
+    }
+
+    btn.addEventListener('click', async () => {
+      const nameValue = input.value.trim();
+      const emailValue = emailInput.value.trim();
+      if (nameValue.length < 2 || emailValue.length < 5) return;
+      setLearnerName(nameValue);
+      setLearnerEmail(emailValue);
+      try {
+        const learner = await upsertLearner({
+          email: emailValue,
+          fullName: nameValue,
+          roleSelected: progress.roleId
+        });
+        const { courseCode, cycleYear } = await resolveCourseMeta();
+        const enrollment = await upsertEnrollment({
+          email: emailValue,
+          courseCode,
+          cycleYear
+        });
+        setEnrollmentInfo({
+          enrollmentId: enrollment.enrollmentId,
+          learnerId: learner.learnerId,
+          courseCode,
+          cycleYear
+        });
+      } catch (err) {
+        console.warn('API sync failed', err);
+      }
       window.location.href = 'learn.html';
     });
   </script>

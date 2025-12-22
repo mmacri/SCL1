@@ -1,14 +1,13 @@
-import { loadProgress, setRole, clearIfDifferentCourse } from './storage.js';
+import { loadProgress, setRole, setLearnerName, setLearnerEmail, setEnrollmentInfo, clearIfDifferentCourse } from './storage.js';
+import { upsertLearner, upsertEnrollment } from './api-client.js';
 
 const moduleStepMap = {
   'Home / Start': ['mission-control'],
-  'Module 1 – CSIR Overview': ['mission-control', 'csir-basics'],
-  'Module 2 – Roles & Communications': ['roles', 'comms'],
-  'Module 3 – Terminology & Severity': ['definitions', 'severity'],
-  'Module 4 – Workflow by Phase': ['workflow', 'response'],
-  'Module 5 – Reporting & Documentation': ['reporting', 'evidence'],
-  'Module 6 – OT Scenarios & Drills': ['scenarios'],
-  'Module 7 – Certification Exam': ['final-exam', 'checklist', 'completion'],
+  'Module 1 - CSIR Overview': ['mission-control', 'csir-basics'],
+  'Module 2 - Roles & Communications': ['roles', 'comms'],
+  'Module 3 - Terminology & Severity': ['definitions', 'severity'],
+  'Module 4 - Workflow by Phase': ['workflow', 'response'],
+  'Module 5 - Reporting & Documentation': ['reporting', 'evidence']
 };
 
 const roleSummary = {
@@ -35,6 +34,8 @@ const assumptionDetail = document.getElementById('assumptionDetail');
 const resumeLink = document.getElementById('resumeLink');
 const threatSegments = document.querySelectorAll('.threat-segment');
 const threatDetail = document.getElementById('threatDetail');
+const roleNameInput = document.getElementById('roleName');
+const roleEmailInput = document.getElementById('roleEmail');
 
 let selectedRole = null;
 
@@ -46,6 +47,7 @@ function loadPack() {
 }
 
 function renderModules(progress) {
+  if (!moduleProgress) return;
   const completed = progress.completedSteps || [];
   const fragments = [];
   const entries = Object.entries(moduleStepMap);
@@ -79,11 +81,11 @@ function renderModules(progress) {
 function updateRoleUI(roleId, pack) {
   const roleObj = pack.roles.find((r) => r.id === roleId);
   if (roleObj) {
-    roleBadge.textContent = `Role: ${roleObj.label}`;
-    roleSummaryEl.textContent = roleSummary[roleId] || roleObj.whoItsFor;
+    if (roleBadge) roleBadge.textContent = `Role: ${roleObj.label}`;
+    if (roleSummaryEl) roleSummaryEl.textContent = roleSummary[roleId] || roleObj.whoItsFor;
   } else {
-    roleBadge.textContent = 'Select a role to personalize content';
-    roleSummaryEl.textContent = 'No role selected yet.';
+    if (roleBadge) roleBadge.textContent = 'Select a role to personalize content';
+    if (roleSummaryEl) roleSummaryEl.textContent = 'No role selected yet.';
   }
 }
 
@@ -98,15 +100,47 @@ function initRoleModal(pack) {
     if (saved === role.id) {
       card.classList.add('selected');
       selectedRole = role.id;
-      roleSave.disabled = false;
+      validateRoleModal();
     }
     card.addEventListener('click', () => {
       document.querySelectorAll('#roleOptions .role-card').forEach((c) => c.classList.remove('selected'));
       card.classList.add('selected');
       selectedRole = role.id;
-      roleSave.disabled = false;
+      validateRoleModal();
     });
     roleOptions.appendChild(card);
+  });
+}
+
+function validateRoleModal() {
+  const nameOk = roleNameInput?.value.trim().length >= 2;
+  const emailOk = roleEmailInput?.value.trim().length >= 5 && roleEmailInput.value.includes('@');
+  roleSave.disabled = !(selectedRole && nameOk && emailOk);
+}
+
+async function syncLearnerEnrollment() {
+  const progress = loadProgress();
+  if (!progress.learnerName || !progress.learnerEmail || !progress.roleId) return;
+  const res = await fetch('./contentpacks/scl-csir/pack.json');
+  const pack = await res.json();
+  const version = pack.course.version || '';
+  const year = Number(version.slice(0, 4)) || new Date().getFullYear();
+  const courseCode = `CSIR-${year}`;
+  const learner = await upsertLearner({
+    email: progress.learnerEmail,
+    fullName: progress.learnerName,
+    roleSelected: progress.roleId
+  });
+  const enrollment = await upsertEnrollment({
+    email: progress.learnerEmail,
+    courseCode,
+    cycleYear: year
+  });
+  setEnrollmentInfo({
+    enrollmentId: enrollment.enrollmentId,
+    learnerId: learner.learnerId,
+    courseCode,
+    cycleYear: year
   });
 }
 
@@ -159,17 +193,26 @@ loadPack()
     updateRoleUI(progress.roleId, pack);
     initRoleModal(pack);
     updateResumeLink(progress);
+    if (roleNameInput && progress.learnerName) roleNameInput.value = progress.learnerName;
+    if (roleEmailInput && progress.learnerEmail) roleEmailInput.value = progress.learnerEmail;
+    validateRoleModal();
 
-    if (!progress.roleId) {
+    if (!progress.roleId || !progress.learnerName || !progress.learnerEmail) {
       openRoleModal();
     }
 
     roleSave.addEventListener('click', () => {
       if (!selectedRole) return;
       setRole(selectedRole);
+      if (roleNameInput?.value) setLearnerName(roleNameInput.value);
+      if (roleEmailInput?.value) setLearnerEmail(roleEmailInput.value);
       updateRoleUI(selectedRole, pack);
+      syncLearnerEnrollment().catch((err) => console.warn('API sync failed', err));
       closeRoleModal();
     });
+
+    roleNameInput?.addEventListener('input', validateRoleModal);
+    roleEmailInput?.addEventListener('input', validateRoleModal);
 
     [switchRole, remindSwitch].forEach((btn) => {
       if (btn) btn.addEventListener('click', openRoleModal);
@@ -179,7 +222,9 @@ loadPack()
   })
   .catch((err) => {
     console.error(err);
-    moduleProgress.innerHTML = '<p class="alert">Unable to load CSIR data.</p>';
+    if (moduleProgress) {
+      moduleProgress.innerHTML = '<p class="alert">Unable to load CSIR data.</p>';
+    }
   });
 
 wireAssumptions();

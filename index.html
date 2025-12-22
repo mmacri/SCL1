@@ -3,8 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DecisionMaker Training Home</title>
+  <title>Training Home</title>
   <link rel="stylesheet" href="css/theme.css">
+  <meta name="scl-api-base" content="">
+  <script>
+    (function() {
+      const meta = document.querySelector('meta[name="scl-api-base"]');
+      const metaValue = meta?.getAttribute('content')?.trim();
+      if (metaValue) {
+        window.SCL_API_BASE = metaValue;
+      }
+    })();
+  </script>
   <style>
     body {
       background: linear-gradient(180deg, #f8fbff 0%, #eef2f7 100%);
@@ -19,6 +29,11 @@
       padding: 0 20px 48px;
       display: grid;
       gap: 20px;
+    }
+    .course-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
     .hero-intro {
       padding: 24px;
@@ -104,11 +119,11 @@
 <body class="page">
   <header class="header">
     <div class="header-inner">
-      <div class="brand"><img src="assets/logo.svg" alt="SCL logo">DecisionMaker Training</div>
+      <div class="brand"><img src="assets/logo.svg" alt="SCL logo">Training Home</div>
       <nav class="top-nav">
         <a href="process-deep-dive.html">Process deep dive</a>
-        <a href="learn.html">My learning</a>
-        <a href="csir/curriculum.html">CSIR content (no quizzes)</a>
+        <a href="csir/my-learning.html">My learning</a>
+        <a href="csir/curriculum.html">CSIR process</a>
       </nav>
     </div>
   </header>
@@ -116,41 +131,51 @@
   <main class="main-landing">
     <div class="hero-intro">
       <div class="pill">Seattle City Light • Training home</div>
-      <h1 class="section-title">Choose your path</h1>
-      <p class="section-sub">Jump into the learning dashboard or review the guided training deep dive from the documentation.</p>
+      <h1 class="section-title">Available training</h1>
+      <p class="section-sub">Select a course to open the process content or start your learning path.</p>
     </div>
 
-    <div class="path-grid">
-      <div class="path-card primary">
-        <div class="pill">Process deep dive</div>
-        <h2>CSIR process walkthrough</h2>
-        <p class="section-sub">Open the ungated, step-by-step view of the CSIR process—no locked steps or required questions.</p>
-        <ul>
-          <li>Move freely across all CSIR steps, role callouts, and supporting content.</li>
-          <li>Use it as a document-style reference during reviews or refreshers.</li>
-          <li>Checklist downloads stay available without passing the assessment.</li>
-        </ul>
-        <div class="footer-actions">
-          <a class="button" href="process-deep-dive.html">Open process deep dive</a>
-        </div>
-      </div>
+    <div class="course-grid" id="courseGrid"></div>
 
-      <div class="path-card">
-        <div class="pill">My learning</div>
-        <h2>Learning dashboard</h2>
-        <p class="section-sub">Track your progress, resume modules, and see what comes next across your learning plan.</p>
-        <ul>
-          <li>See saved progress and checkpoints.</li>
-          <li>Browse upcoming modules and activities.</li>
-          <li>Resume where you left off in a single click.</li>
-        </ul>
-        <div class="footer-actions">
-          <a class="button secondary" href="learn.html">Open my learning</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="landing-footer">This page intentionally focuses on two entry points: the guided training documentation and your learning dashboard.</div>
+    <div class="landing-footer">More courses will appear here as they are added.</div>
   </main>
+  <script>
+    (function() {
+      const grid = document.getElementById('courseGrid');
+      const apiBase = (window.SCL_API_BASE || localStorage.getItem('scl_api_base') || '').replace(/\/$/, '');
+      const apiUrl = apiBase ? `${apiBase}/api/courses` : '/api/courses';
+      const fallback = [{
+        courseCode: 'CSIR-2025',
+        courseName: 'Seattle City Light - OT Cyber Security Incident Response (CSIR) Training',
+        versionLabel: '2025',
+        isActive: true
+      }];
+
+      function renderCourses(list) {
+        const courses = list && list.length ? list : fallback;
+        grid.innerHTML = '';
+        courses.forEach((course) => {
+          const card = document.createElement('div');
+          card.className = 'path-card primary';
+          card.innerHTML = `
+            <div class="pill">${course.versionLabel}</div>
+            <h2>${course.courseName}</h2>
+            <p class="section-sub">Open the CSIR process and start or resume your learning path.</p>
+            <div class="footer-actions">
+              <a class="button" href="csir/index.html">Open CSIR</a>
+              <a class="button secondary" href="csir/my-learning.html">My learning</a>
+              <a class="button ghost" href="process-deep-dive.html">Process deep dive</a>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      fetch(apiUrl)
+        .then((res) => res.ok ? res.json() : fallback)
+        .then(renderCourses)
+        .catch(() => renderCourses(fallback));
+    })();
+  </script>
 </body>
 </html>

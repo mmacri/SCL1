@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Report - CSIR</title>
+  <meta name="scl-api-base" content="">
+  <link rel="stylesheet" href="css/theme.css">
+  <script src="js/api-config.js"></script>
+  <style>
+    .report-grid { display:grid; gap:16px; }
+    .report-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:end; }
+    .report-controls label { display:block; font-weight:600; margin-bottom:4px; }
+    .report-controls select { min-width:120px; }
+    .report-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .report-table th, .report-table td { padding:8px 10px; border-bottom:1px solid var(--border); text-align:left; }
+    .report-table th { background:#f5f7fb; font-weight:600; }
+    .report-meta { display:flex; gap:12px; flex-wrap:wrap; }
+  </style>
+</head>
+<body class="page">
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand"><img src="assets/logo.svg" alt="SCL">Admin Reports</div>
+      <div class="footer-actions">
+        <a class="button ghost" href="index.html">CSIR home</a>
+        <a class="button ghost" href="../index.html">Training home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel card report-grid">
+      <div>
+        <div class="pill">Monthly report</div>
+        <h2 class="section-title">Learner activity</h2>
+        <p class="section-sub">Pulls registered learners and progress for the selected month. Requires API access.</p>
+      </div>
+
+      <div class="report-controls">
+        <div>
+          <label for="yearSelect">Year</label>
+          <select id="yearSelect"></select>
+        </div>
+        <div>
+          <label for="monthSelect">Month</label>
+          <select id="monthSelect"></select>
+        </div>
+        <button id="loadReport" class="button">Load report</button>
+        <button id="downloadCsv" class="button secondary" disabled>Download CSV</button>
+      </div>
+
+      <div class="report-meta">
+        <div class="status-pill" id="reportStatus">No data loaded.</div>
+        <div class="status-pill" id="reportCount"></div>
+      </div>
+
+      <div style="overflow:auto;">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Course</th>
+              <th>Cycle</th>
+              <th>Status</th>
+              <th>Last step</th>
+              <th>Start date</th>
+              <th>Last activity</th>
+            </tr>
+          </thead>
+          <tbody id="reportBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      const apiBase = (window.SCL_API_BASE || localStorage.getItem('scl_api_base') || '').replace(/\/$/, '');
+      const apiRoot = apiBase ? `${apiBase}` : '';
+      const yearSelect = document.getElementById('yearSelect');
+      const monthSelect = document.getElementById('monthSelect');
+      const reportBody = document.getElementById('reportBody');
+      const reportStatus = document.getElementById('reportStatus');
+      const reportCount = document.getElementById('reportCount');
+      const downloadBtn = document.getElementById('downloadCsv');
+      const loadBtn = document.getElementById('loadReport');
+      let lastRecords = [];
+
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth() + 1;
+
+      for (let y = currentYear - 3; y <= currentYear + 1; y++) {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        if (y === currentYear) opt.selected = true;
+        yearSelect.appendChild(opt);
+      }
+
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      monthNames.forEach((name, idx) => {
+        const opt = document.createElement('option');
+        opt.value = idx + 1;
+        opt.textContent = `${idx + 1} - ${name}`;
+        if (idx + 1 === currentMonth) opt.selected = true;
+        monthSelect.appendChild(opt);
+      });
+
+      function formatDate(value) {
+        if (!value) return '';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return '';
+        return date.toLocaleString();
+      }
+
+      function render(records) {
+        reportBody.innerHTML = '';
+        records.forEach((row) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${row.FullName || ''}</td>
+            <td>${row.Email || ''}</td>
+            <td>${row.RoleSelected || ''}</td>
+            <td>${row.CourseName || ''}</td>
+            <td>${row.CycleYear || ''}</td>
+            <td>${row.Status || ''}</td>
+            <td>${row.LastStepId || ''}</td>
+            <td>${formatDate(row.StartDate)}</td>
+            <td>${formatDate(row.LastActivity)}</td>
+          `;
+          reportBody.appendChild(tr);
+        });
+      }
+
+      function toCsv(records) {
+        const headers = ['FullName','Email','RoleSelected','CourseName','CycleYear','Status','LastStepId','StartDate','LastActivity'];
+        const rows = records.map((row) => headers.map((h) => `"${(row[h] ?? '').toString().replace(/\"/g, '""')}"`).join(','));
+        return [headers.join(','), ...rows].join('\n');
+      }
+
+      async function loadReport() {
+        const year = yearSelect.value;
+        const month = monthSelect.value;
+        reportStatus.textContent = 'Loading...';
+        reportCount.textContent = '';
+        downloadBtn.disabled = true;
+        try {
+          const url = `${apiRoot}/api/reports/monthly?year=${year}&month=${month}`;
+          const res = await fetch(url);
+          if (!res.ok) throw new Error('Failed to load report');
+          const data = await res.json();
+          lastRecords = data.records || [];
+          render(lastRecords);
+          reportStatus.textContent = `Loaded ${data.month}/${data.year}`;
+          reportCount.textContent = `${data.count} records`;
+          downloadBtn.disabled = lastRecords.length === 0;
+        } catch (err) {
+          reportStatus.textContent = 'Report load failed.';
+          reportCount.textContent = '';
+          console.warn(err);
+        }
+      }
+
+      downloadBtn.addEventListener('click', () => {
+        const csv = toCsv(lastRecords);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `csir-report-${yearSelect.value}-${monthSelect.value}.csv`;
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      loadBtn.addEventListener('click', loadReport);
+      loadReport();
+    })();
+  </script>
+</body>
+</html>

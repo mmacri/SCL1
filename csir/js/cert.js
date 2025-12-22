@@ -1,6 +1,7 @@
 import { loadProgress, resetProgress, setCertificateId, getMode } from './storage.js';
 import { enforceNameBeforeCertificate } from './router.js';
 import { downloadElementPng, downloadPageScreenshot } from './screenshot.js';
+import { issueCertificate } from './api-client.js';
 
 function formatDate(dateStr) {
   const date = dateStr ? new Date(dateStr) : new Date();
@@ -51,6 +52,20 @@ async function initCertificate() {
   const role = pack.roles.find((r) => r.id === progress.roleId);
   const roleLabel = role?.label || progress.roleId;
   let certId = progress.certificateId;
+  if (!certId) {
+    if (progress.enrollmentId && progress.completedAt) {
+      try {
+        const issued = await issueCertificate({
+          enrollmentId: progress.enrollmentId,
+          completionDate: progress.completedAt
+        });
+        certId = issued.certificateCode;
+        setCertificateId(certId);
+      } catch (err) {
+        console.warn('Certificate API failed', err);
+      }
+    }
+  }
   if (!certId) {
     certId = await generateHash(`${progress.learnerName}-${progress.roleId}-${progress.completedAt || new Date().toISOString()}`);
     setCertificateId(certId);

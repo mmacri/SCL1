@@ -6,7 +6,7 @@ export function requireRoleAndName() {
     window.location.href = 'role.html';
     return false;
   }
-  if (!progress.learnerName) {
+  if (!progress.learnerName || !progress.learnerEmail) {
     window.location.href = 'profile.html';
     return false;
   }
@@ -20,7 +20,7 @@ export function redirectIfMissingPrereqs() {
 export function enforceNameBeforeCertificate() {
   const progress = loadProgress();
   if (!progress.roleId) window.location.href = 'role.html';
-  if (!progress.learnerName) window.location.href = 'profile.html';
+  if (!progress.learnerName || !progress.learnerEmail) window.location.href = 'profile.html';
   if (!progress.completedAt) window.location.href = 'learn.html';
 }
 

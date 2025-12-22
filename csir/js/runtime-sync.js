@@ -1,4 +1,4 @@
-import { getName, getRole, getMode, setMode, getProgress, setProgress } from './storage.js';
+import { getName, getEmail, getRole, getMode, setMode, getProgress, setProgress } from './storage.js';
 
 function isEmbeddedMode() {
   const params = new URLSearchParams(window.location.search);
@@ -31,8 +31,9 @@ function syncBackLink(hash) {
 
 function gateAccess() {
   const name = getName();
+  const email = getEmail();
   const role = getRole();
-  if (!name || !role) {
+  if (!name || !email || !role) {
     window.location.href = 'role.html';
     return false;
   }
