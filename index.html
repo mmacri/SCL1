@@ -8,196 +8,148 @@
   <style>
     body {
       background: linear-gradient(180deg, #f8fbff 0%, #eef2f7 100%);
+      min-height: 100vh;
     }
-    .layout-shell { grid-template-columns: 320px 1fr; }
-    .hero-lead { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); align-items: center; }
-    .hero-intro { padding: 18px; border-radius: 16px; background: #0f172a; color: #e2e8f0; box-shadow: var(--shadow); }
-    .hero-intro h1 { color: #fff; margin: 0 0 6px; }
-    .hero-intro .section-sub { color: #cbd5e1; }
-    .path-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 8px; }
-    .mode-card { border: 1px solid var(--border); border-radius: 14px; padding: 16px; background: #fff; box-shadow: var(--shadow); display: grid; gap: 10px; }
-    .mode-card.primary { background: linear-gradient(135deg, #0f52ba 0%, #1d4ed8 55%, #3652d9 100%); color: #fff; border-color: #0f52ba; }
-    .mode-card.primary h2, .mode-card.primary p, .mode-card.primary li { color: #fff; }
-    .mode-card.secondary { background: #fff; }
-    .mode-card.secondary h2 { color: #0b1f44; }
-    .mode-card ul { margin: 0; padding-left: 18px; color: var(--muted); }
-    .mode-card.primary ul { color: rgba(255,255,255,0.9); }
-    .mode-card .section-sub { margin-bottom: 4px; }
-    .mode-meta { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); }
-    .quick-actions { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-    .card-link { border: 1px solid var(--border); border-radius: 12px; padding: 12px; background: #f8fafc; display: grid; gap: 6px; }
-    .card-link strong { color: #0b1f44; }
+    .header {
+      box-shadow: var(--shadow);
+    }
+    .main-landing {
+      max-width: 980px;
+      margin: 48px auto;
+      padding: 0 20px 48px;
+      display: grid;
+      gap: 20px;
+    }
+    .hero-intro {
+      padding: 24px;
+      border-radius: 18px;
+      background: #0f172a;
+      color: #e2e8f0;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .hero-intro h1 {
+      color: #fff;
+      margin: 6px 0 10px;
+    }
+    .hero-intro .section-sub {
+      color: #cbd5e1;
+      margin: 0;
+    }
+    .path-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .path-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+      box-shadow: var(--shadow);
+    }
+    .path-card.primary {
+      background: linear-gradient(135deg, #0f52ba 0%, #1d4ed8 55%, #3652d9 100%);
+      color: #fff;
+      border-color: #0f52ba;
+    }
+    .path-card.primary h2,
+    .path-card.primary p,
+    .path-card.primary li {
+      color: #fff;
+    }
+    .path-card h2 {
+      margin: 0;
+      color: #0b1f44;
+    }
+    .path-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+    .path-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+    .path-card.primary ul {
+      color: rgba(255,255,255,0.9);
+    }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #e7ecf5;
+      color: #0b1f44;
+      font-weight: 600;
+    }
+    .path-card.primary .pill {
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+    }
+    .footer-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .landing-footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 6px;
+    }
   </style>
 </head>
-<body class="page curriculum">
+<body class="page">
   <header class="header">
     <div class="header-inner">
       <div class="brand"><img src="assets/logo.svg" alt="SCL logo">DecisionMaker Training</div>
       <nav class="top-nav">
-        <a href="csir/index.html">Certification track</a>
-        <a href="cip007/index.html">Process guidance</a>
-        <a href="docs/csir_training_upgrade_plan.md">Documentation</a>
         <a href="learn.html">My learning</a>
+        <a href="docs/csir_training_upgrade_plan.md">Guided training deep dive</a>
       </nav>
-      <div class="footer-actions">
-        <a class="button ghost" href="csir/player.html?resume=1">Resume</a>
-        <a class="button" href="csir/player.html">Launch player</a>
-      </div>
     </div>
   </header>
 
-  <main class="container layout-shell">
-    <aside class="curriculum-nav panel">
-      <h3>Start here</h3>
-      <ol class="curriculum-list">
-        <li><a href="csir/index.html">Certification curriculum <span class="status">Primary</span></a></li>
-        <li><a href="csir/my-learning.html">Certification dashboard</a></li>
-        <li><a href="cip007/index.html">Process guidance &amp; docs</a></li>
-        <li><a href="docs/csir_training_upgrade_plan.md">Planning notes</a></li>
-      </ol>
-      <div class="progress-stack">
-        <div class="small">Quick links</div>
-        <div class="module-progress">
-          <div class="module-chip in-progress">
-            <div class="module-title">Resume training</div>
-            <div class="module-status">Jump back to your last spot in the player.</div>
-          </div>
-          <div class="module-chip">
-            <div class="module-title">Certificates</div>
-            <div class="module-status">View or download earned certificates.</div>
-          </div>
-        </div>
-      </div>
-      <div class="role-pill">Seattle City Light • OT Security</div>
-    </aside>
+  <main class="main-landing">
+    <div class="hero-intro">
+      <div class="pill">Seattle City Light • Training home</div>
+      <h1 class="section-title">Choose your path</h1>
+      <p class="section-sub">Jump into the learning dashboard or review the guided training deep dive from the documentation.</p>
+    </div>
 
-    <section class="main-with-sidebar">
-      <section class="panel card" style="margin-bottom:16px;">
-        <div class="hero-lead">
-          <div class="hero-intro">
-            <div class="pill">Seattle City Light • Training home</div>
-            <h1 class="section-title">Choose how you want to learn</h1>
-            <p class="section-sub">Pick the certification track for structured training or open the process guidance to browse documentation and runbooks.</p>
-            <div class="footer-actions" style="margin-top:10px;">
-              <a class="button" href="csir/player.html?track=csir-cert&m=1&s=1">Begin certification</a>
-              <a class="button secondary" href="cip007/index.html">Open process guidance</a>
-              <a class="button ghost" href="csir/player.html?resume=1">Resume last session</a>
-            </div>
-          </div>
-          <div class="path-grid">
-            <div class="mode-card primary">
-              <div class="pill" style="background: rgba(255,255,255,0.18); color:#fff; display:inline-block; padding:4px 10px; border-radius:20px;">Certification training</div>
-              <h2>CSIR certification path</h2>
-              <p class="section-sub" style="color:rgba(255,255,255,0.9);">Follow the fast-track curriculum with knowledge checks and an exam.</p>
-              <ul>
-                <li>Modules 1–6 with gated steps and checkpoints.</li>
-                <li>Final Module 7 exam to earn a certificate.</li>
-                <li>Designed for OT security roles at Seattle City Light.</li>
-              </ul>
-              <div class="mode-meta">
-                <span>Start new</span>
-                <span>•</span>
-                <span>Resume anytime</span>
-              </div>
-              <div class="footer-actions">
-                <a class="button" href="csir/player.html?track=csir-cert&m=1&s=1">Start certification</a>
-                <a class="button secondary" href="csir/player.html?resume=1">Resume course</a>
-              </div>
-            </div>
-            <div class="mode-card secondary">
-              <div class="pill" style="display:inline-block; padding:4px 10px; border-radius:20px; background:#e7ecf5;">Process guidance</div>
-              <h2>Process guidance &amp; documentation</h2>
-              <p class="section-sub">Explore runbooks, CIP-007 walkthroughs, and supporting documents when you need quick answers.</p>
-              <ul>
-                <li>CIP-007 guided flow for controls and verification.</li>
-                <li>Runtime steps with manual completion to stay in sequence.</li>
-                <li>Linked documentation for process owners and reviewers.</li>
-              </ul>
-              <div class="mode-meta">
-                <span>Browse references</span>
-                <span>•</span>
-                <span>Jump into specific modules</span>
-              </div>
-              <div class="footer-actions">
-                <a class="button secondary" href="cip007/index.html">Open guidance</a>
-                <a class="button ghost" href="docs/csir_training_upgrade_plan.md">View documentation</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div class="hero-card panel card">
-        <div>
-          <div class="pill">Certification highlight</div>
-          <h2 class="section-title">Guided CSIR training built from the SCL plan</h2>
-          <p class="section-sub">Follow the CSIR curriculum for OT cyber assets with role selection, modules, knowledge checks, and certification.</p>
-          <ul class="list">
-            <li>Understand purpose, scope, and terminology across the CSIR plan.</li>
-            <li>Know role responsibilities, communications, and reporting expectations.</li>
-            <li>Work the six-phase workflow with evidence and deadlines.</li>
-          </ul>
-          <div class="footer-actions">
-            <a class="button" href="csir/player.html?module=m1">Start Module 1</a>
-            <a class="button secondary" href="csir/index.html">View CSIR overview</a>
-            <a class="button ghost" href="my-learning.html">Open my learning</a>
-          </div>
-        </div>
-        <div class="workflow-summary">
-          <div class="pill">CSIR workflow spine</div>
-          <h3 class="section-title" style="margin:4px 0;">Preparation → Identification → Investigation → Response → Recovery → Follow-up</h3>
-          <p class="section-sub" style="margin-bottom:6px;">Each module aligns to the six phases. Start at the left and move right with a single, continuous runbook.</p>
-          <div class="workflow-track">
-            <div class="workflow-phase">
-              <strong>Preparation</strong>
-              <p>Keep plans current, confirm monitoring/logging, and stage backups/images.</p>
-            </div>
-            <div class="workflow-phase">
-              <strong>Identification</strong>
-              <p>Spot signals fast, classify, and notify the right leads.</p>
-            </div>
-            <div class="workflow-phase">
-              <strong>Investigation</strong>
-              <p>Confirm severity, assess scope, and align roles before acting.</p>
-            </div>
-            <div class="workflow-phase">
-              <strong>Response</strong>
-              <p>Contain, eradicate, and document actions with approvals.</p>
-            </div>
-            <div class="workflow-phase">
-              <strong>Recovery</strong>
-              <p>Restore safely, validate systems, and prevent recurrence.</p>
-            </div>
-            <div class="workflow-phase">
-              <strong>Follow-up</strong>
-              <p>Capture lessons learned, finalize reporting, and update the plan.</p>
-            </div>
-          </div>
-          <div class="workflow-meta">You are guided step-by-step. Locked steps keep the workflow aligned and traceable.</div>
+    <div class="path-grid">
+      <div class="path-card primary">
+        <div class="pill">Guided training</div>
+        <h2>Guided training deep dive</h2>
+        <p class="section-sub">Explore the documentation that walks through the training plan, milestones, and delivery approach.</p>
+        <ul>
+          <li>Review the end-to-end training outline.</li>
+          <li>Understand delivery cadence and checkpoints.</li>
+          <li>Use as the reference for program updates.</li>
+        </ul>
+        <div class="footer-actions">
+          <a class="button" href="docs/csir_training_upgrade_plan.md">Open documentation</a>
         </div>
       </div>
 
-      <section class="panel card" style="margin-top:16px;">
-        <div class="pill">Keep moving</div>
-        <div class="quick-actions">
-          <div class="card-link">
-            <strong>My learning dashboard</strong>
-            <span class="small">Track progress, certificates, and resume points.</span>
-            <a class="button secondary" href="my-learning.html">Open dashboard</a>
-          </div>
-          <div class="card-link">
-            <strong>Certification exam</strong>
-            <span class="small">Take Module 7 exam when Modules 1–6 are complete.</span>
-            <a class="button secondary" href="csir/player.html?module=m7">Open exam</a>
-          </div>
-          <div class="card-link">
-            <strong>CIP-007 guide</strong>
-            <span class="small">Review the legacy CIP-007 guided walkthrough for reference.</span>
-            <a class="button secondary" href="cip007/index.html">Open CIP-007 guide</a>
-          </div>
+      <div class="path-card">
+        <div class="pill">My learning</div>
+        <h2>Learning dashboard</h2>
+        <p class="section-sub">Track your progress, resume modules, and see what comes next across your learning plan.</p>
+        <ul>
+          <li>See saved progress and checkpoints.</li>
+          <li>Browse upcoming modules and activities.</li>
+          <li>Resume where you left off in a single click.</li>
+        </ul>
+        <div class="footer-actions">
+          <a class="button secondary" href="learn.html">Open my learning</a>
         </div>
-      </section>
-    </section>
+      </div>
+    </div>
+
+    <div class="landing-footer">This page intentionally focuses on two entry points: the guided training documentation and your learning dashboard.</div>
   </main>
 </body>
 </html>
