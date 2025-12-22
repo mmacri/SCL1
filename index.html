@@ -6,14 +6,24 @@
   <title>DecisionMaker Training Home</title>
   <link rel="stylesheet" href="css/theme.css">
   <style>
-    .layout-shell { grid-template-columns: 300px 1fr; }
-    .hero-card { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); align-items: center; }
-    .mode-card { border: 1px solid var(--border); border-radius: 14px; padding: 16px; background: #f8fafc; box-shadow: var(--shadow); display: grid; gap: 10px; }
-    .mode-card.primary { background: linear-gradient(135deg, #0f52ba 0%, #1d4ed8 60%, #eff6ff 100%); color: #fff; border-color: #0f52ba; }
+    body {
+      background: linear-gradient(180deg, #f8fbff 0%, #eef2f7 100%);
+    }
+    .layout-shell { grid-template-columns: 320px 1fr; }
+    .hero-lead { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); align-items: center; }
+    .hero-intro { padding: 18px; border-radius: 16px; background: #0f172a; color: #e2e8f0; box-shadow: var(--shadow); }
+    .hero-intro h1 { color: #fff; margin: 0 0 6px; }
+    .hero-intro .section-sub { color: #cbd5e1; }
+    .path-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 8px; }
+    .mode-card { border: 1px solid var(--border); border-radius: 14px; padding: 16px; background: #fff; box-shadow: var(--shadow); display: grid; gap: 10px; }
+    .mode-card.primary { background: linear-gradient(135deg, #0f52ba 0%, #1d4ed8 55%, #3652d9 100%); color: #fff; border-color: #0f52ba; }
     .mode-card.primary h2, .mode-card.primary p, .mode-card.primary li { color: #fff; }
     .mode-card.secondary { background: #fff; }
+    .mode-card.secondary h2 { color: #0b1f44; }
     .mode-card ul { margin: 0; padding-left: 18px; color: var(--muted); }
     .mode-card.primary ul { color: rgba(255,255,255,0.9); }
+    .mode-card .section-sub { margin-bottom: 4px; }
+    .mode-meta { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); }
     .quick-actions { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
     .card-link { border: 1px solid var(--border); border-radius: 12px; padding: 12px; background: #f8fafc; display: grid; gap: 6px; }
     .card-link strong { color: #0b1f44; }
@@ -24,13 +34,14 @@
     <div class="header-inner">
       <div class="brand"><img src="assets/logo.svg" alt="SCL logo">DecisionMaker Training</div>
       <nav class="top-nav">
-        <a href="csir/index.html">CSIR training</a>
-        <a href="cip007/index.html">CIP-007 reference</a>
+        <a href="csir/index.html">Certification track</a>
+        <a href="cip007/index.html">Process guidance</a>
+        <a href="docs/csir_training_upgrade_plan.md">Documentation</a>
         <a href="learn.html">My learning</a>
       </nav>
       <div class="footer-actions">
-        <a class="button ghost" href="csir/player.html?resume=1">Resume CSIR</a>
-        <a class="button" href="csir/player.html">Open course player</a>
+        <a class="button ghost" href="csir/player.html?resume=1">Resume</a>
+        <a class="button" href="csir/player.html">Launch player</a>
       </div>
     </div>
   </header>
@@ -39,10 +50,10 @@
     <aside class="curriculum-nav panel">
       <h3>Start here</h3>
       <ol class="curriculum-list">
-        <li><a href="csir/index.html">CSIR Curriculum <span class="status">Primary</span></a></li>
-        <li><a href="csir/my-learning.html">CSIR dashboard</a></li>
-        <li><a href="cip007/index.html">CIP-007 Guided Flow</a></li>
-        <li><a href="cip007/modules/module6-cip7.html">Open Module 6</a></li>
+        <li><a href="csir/index.html">Certification curriculum <span class="status">Primary</span></a></li>
+        <li><a href="csir/my-learning.html">Certification dashboard</a></li>
+        <li><a href="cip007/index.html">Process guidance &amp; docs</a></li>
+        <li><a href="docs/csir_training_upgrade_plan.md">Planning notes</a></li>
       </ol>
       <div class="progress-stack">
         <div class="small">Quick links</div>
@@ -62,44 +73,64 @@
 
     <section class="main-with-sidebar">
       <section class="panel card" style="margin-bottom:16px;">
-        <div class="pill">Choose your training mode</div>
-        <div class="grid two">
-          <div class="mode-card primary">
-            <h2>Certification Mode (Fast Track)</h2>
-            <p class="section-sub" style="color:rgba(255,255,255,0.9);">Linear modules + checks → final exam → certificate.</p>
-            <ul>
-              <li>Guided modules with knowledge checks.</li>
-              <li>Locked sequence keeps you on track for the exam.</li>
-              <li>Earn a downloadable certificate after passing.</li>
-            </ul>
-            <div class="footer-actions">
-              <a class="button" href="csir/player.html?track=csir-cert&m=1&s=1">Start Certification Mode</a>
-              <a class="button secondary" href="csir/player.html?resume=1">Resume</a>
+        <div class="hero-lead">
+          <div class="hero-intro">
+            <div class="pill">Seattle City Light • Training home</div>
+            <h1 class="section-title">Choose how you want to learn</h1>
+            <p class="section-sub">Pick the certification track for structured training or open the process guidance to browse documentation and runbooks.</p>
+            <div class="footer-actions" style="margin-top:10px;">
+              <a class="button" href="csir/player.html?track=csir-cert&m=1&s=1">Begin certification</a>
+              <a class="button secondary" href="cip007/index.html">Open process guidance</a>
+              <a class="button ghost" href="csir/player.html?resume=1">Resume last session</a>
             </div>
           </div>
-          <div class="mode-card secondary">
-            <h2>Interactive Mode (Deep Dive)</h2>
-            <p class="section-sub">Full interactive runtime experience with locked steps and deep drills.</p>
-            <ul>
-              <li>Embeds the existing 15-step runtime.</li>
-              <li>Manual completion gating avoids out-of-order steps.</li>
-              <li>Jump back to the fast track anytime.</li>
-            </ul>
-            <div class="footer-actions">
-              <a class="button secondary" href="csir/player.html?track=csir-interactive">Start Interactive Mode</a>
-              <a class="button ghost" href="csir/player.html">Open course player</a>
+          <div class="path-grid">
+            <div class="mode-card primary">
+              <div class="pill" style="background: rgba(255,255,255,0.18); color:#fff; display:inline-block; padding:4px 10px; border-radius:20px;">Certification training</div>
+              <h2>CSIR certification path</h2>
+              <p class="section-sub" style="color:rgba(255,255,255,0.9);">Follow the fast-track curriculum with knowledge checks and an exam.</p>
+              <ul>
+                <li>Modules 1–6 with gated steps and checkpoints.</li>
+                <li>Final Module 7 exam to earn a certificate.</li>
+                <li>Designed for OT security roles at Seattle City Light.</li>
+              </ul>
+              <div class="mode-meta">
+                <span>Start new</span>
+                <span>•</span>
+                <span>Resume anytime</span>
+              </div>
+              <div class="footer-actions">
+                <a class="button" href="csir/player.html?track=csir-cert&m=1&s=1">Start certification</a>
+                <a class="button secondary" href="csir/player.html?resume=1">Resume course</a>
+              </div>
+            </div>
+            <div class="mode-card secondary">
+              <div class="pill" style="display:inline-block; padding:4px 10px; border-radius:20px; background:#e7ecf5;">Process guidance</div>
+              <h2>Process guidance &amp; documentation</h2>
+              <p class="section-sub">Explore runbooks, CIP-007 walkthroughs, and supporting documents when you need quick answers.</p>
+              <ul>
+                <li>CIP-007 guided flow for controls and verification.</li>
+                <li>Runtime steps with manual completion to stay in sequence.</li>
+                <li>Linked documentation for process owners and reviewers.</li>
+              </ul>
+              <div class="mode-meta">
+                <span>Browse references</span>
+                <span>•</span>
+                <span>Jump into specific modules</span>
+              </div>
+              <div class="footer-actions">
+                <a class="button secondary" href="cip007/index.html">Open guidance</a>
+                <a class="button ghost" href="docs/csir_training_upgrade_plan.md">View documentation</a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="footer-actions" style="margin-top:12px;">
-          <a class="button ghost" href="csir/player.html?resume=1">Resume where I left off</a>
         </div>
       </section>
 
       <div class="hero-card panel card">
         <div>
-          <div class="pill">Seattle City Light • Training home</div>
-          <h1 class="section-title">Guided CSIR training built from the SCL plan</h1>
+          <div class="pill">Certification highlight</div>
+          <h2 class="section-title">Guided CSIR training built from the SCL plan</h2>
           <p class="section-sub">Follow the CSIR curriculum for OT cyber assets with role selection, modules, knowledge checks, and certification.</p>
           <ul class="list">
             <li>Understand purpose, scope, and terminology across the CSIR plan.</li>
