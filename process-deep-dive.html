@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSIR Process Deep Dive</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <style>
+    .hero { display:grid; gap:12px; }
+    .grid.two { display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:14px; }
+    .pill.inline { display:inline-block; padding:6px 10px; border-radius:14px; background:#eef2fa; color:#1c2b4a; font-weight:600; }
+    .quick-list { margin:0; padding-left:18px; }
+    .quick-list li { margin-bottom:8px; }
+    .card-grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); }
+  </style>
+</head>
+<body class="page">
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand"><img src="assets/logo.svg" alt="SCL logo">CSIR Process Deep Dive</div>
+      <div class="footer-actions" style="gap:10px;">
+        <a class="button ghost" href="index.html">Back to Training Home</a>
+        <a class="button secondary" href="learn.html">Open Guided Training</a>
+        <a class="button" href="csir/curriculum.html">View Full Curriculum</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container layout-shell">
+    <section class="panel card hero">
+      <div>
+        <div class="pill">Seattle City Light • OT CSIR</div>
+        <h1>Process overview and quick reference</h1>
+        <p class="section-sub">High-level view of the CSIR process: what it covers, when to use it, and the spine of activities from preparation through follow-up.</p>
+      </div>
+      <div class="banner">Use this page as a fast reference. The certification and guided training paths stay gated and tracked separately.</div>
+    </section>
+
+    <section class="panel card" id="scope">
+      <div class="pill inline">Scope</div>
+      <h2>What the process covers</h2>
+      <p>The CSIR plan applies to OT cyber assets managed by Seattle City Light, including BES cyber assets, ECAMS, and PACS under SCL control. Systems solely operated by Seattle IT fall outside this scope.</p>
+      <ul class="list">
+        <li>Align incidents, communications, and documentation to the OT CSIR plan.</li>
+        <li>Follow the plan for incidents that impact or threaten OT reliability, safety, or compliance.</li>
+        <li>Escalate to enterprise responders when systems or ownership cross SCL boundaries.</li>
+      </ul>
+    </section>
+
+    <section class="panel card" id="high-level">
+      <div class="pill inline">High-level workflow</div>
+      <h2>Six-phase process at a glance</h2>
+      <div class="grid two">
+        <div>
+          <h4>Preparation → Identification → Investigation</h4>
+          <ul class="quick-list">
+            <li><strong>Preparation:</strong> Keep plans current, confirm monitoring/logging, and stage backups/images.</li>
+            <li><strong>Identification:</strong> Spot signals fast, classify, and notify the right leads.</li>
+            <li><strong>Investigation:</strong> Confirm severity, assess scope, and align roles before acting.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Response → Recovery → Follow-up</h4>
+          <ul class="quick-list">
+            <li><strong>Response:</strong> Contain, eradicate, and document actions with approvals.</li>
+            <li><strong>Recovery:</strong> Restore safely, validate systems, and prevent recurrence.</li>
+            <li><strong>Follow-up:</strong> Capture lessons learned, finalize reporting, and update the plan.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="banner" style="margin-top:10px;">Move left to right. Each phase feeds the next and preserves auditability.</div>
+    </section>
+
+    <section class="panel card" id="quick-guidance">
+      <div class="pill inline">Quick guidance</div>
+      <h2>Use this for at-a-glance direction</h2>
+      <div class="card-grid">
+        <div class="card" style="padding:12px;">
+          <h4>Roles</h4>
+          <p class="small">Confirm who owns which decision. Keep the Incident Commander and OT Leads aligned on status and approvals.</p>
+          <a class="button ghost" href="csir/curriculum.html#module-2">Role callouts</a>
+        </div>
+        <div class="card" style="padding:12px;">
+          <h4>Communications</h4>
+          <p class="small">Follow the notification and escalation paths before containment. Document who was paged and when.</p>
+          <a class="button ghost" href="csir/curriculum.html#module-2">Comms guidance</a>
+        </div>
+        <div class="card" style="padding:12px;">
+          <h4>Reporting &amp; timelines</h4>
+          <p class="small">Track evidence, timestamps, and reporting deadlines to satisfy compliance and audit needs.</p>
+          <a class="button ghost" href="csir/curriculum.html#module-5">Reporting overview</a>
+        </div>
+        <div class="card" style="padding:12px;">
+          <h4>Escalation</h4>
+          <p class="small">For urgent OT impacts, trigger the incident bridge and follow the escalation flow.</p>
+          <a class="button ghost" href="csir/curriculum.html#escalation">Open escalation flow</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
