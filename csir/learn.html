@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSIR Course Runner</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <style>
+    body.embed-mode .header,
+    body.embed-mode .drawer-toggle,
+    body.embed-mode #backToCurriculum,
+    body.embed-mode #resetProgress,
+    body.embed-mode #completionBanner {
+      display: none !important;
+    }
+    body.embed-mode .app-layout {
+      grid-template-columns: 1fr !important;
+    }
+    body.embed-mode .sidebar,
+    body.embed-mode #drawerMobile {
+      display: none !important;
+    }
+
+    body.embedded .header,
+    body.embedded .drawer-toggle,
+    body.embedded #backToCurriculum,
+    body.embedded #resetProgress,
+    body.embedded #completionBanner,
+    body.embedded .sidebar,
+    body.embedded #drawerMobile,
+    body.embedded .progress,
+    body.embedded .banner,
+    body.embedded .footer-actions .button.secondary,
+    body.embedded .footer-actions .button.ghost {
+      display: none !important;
+    }
+    body.embedded .app-layout {
+      grid-template-columns: 1fr !important;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body class="page course-runner" data-role-label="">
+  <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('embed') === '1') {
+        document.body.classList.add('embed-mode');
+      }
+      if (params.get('mode') === 'embedded') {
+        document.body.classList.add('embedded');
+      }
+    })();
+  </script>
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand"><img src="assets/logo.svg" alt="">SCL OT CSIR Training</div>
+      <div class="footer-actions" style="gap:8px;">
+        <a class="button ghost" href="../index.html">Training home</a>
+        <a class="button secondary" id="backToCurriculum" href="curriculum.html">Back to Course Map</a>
+        <div class="status-pill" id="learnerInfo">Loading...</div>
+        <div class="status-pill" id="courseMeta"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="drawer-toggle"><button id="drawerToggle" class="button secondary">View steps</button></div>
+  <div id="drawerOverlay" class="drawer-overlay"></div>
+  <div class="app-shell">
+    <div class="app-layout">
+      <aside class="sidebar panel">
+        <div class="stepper">
+          <h4>Guided steps</h4>
+          <div id="stepList"></div>
+        </div>
+      </aside>
+      <aside id="drawerMobile" class="drawer-mobile"></aside>
+
+      <main class="main-content">
+        <div id="m1" class="module-anchor"></div>
+        <div id="m2" class="module-anchor"></div>
+        <div id="m3" class="module-anchor"></div>
+        <div id="m4" class="module-anchor"></div>
+        <div id="m5" class="module-anchor"></div>
+        <div id="m6" class="module-anchor"></div>
+        <div id="exam" class="module-anchor"></div>
+        <div class="panel" style="padding:16px; margin-bottom:16px; position:sticky; top:12px; z-index:10;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+            <div>
+              <div class="pill">Seattle City Light – OT CSIR Training</div>
+              <h2 id="courseTitle" class="section-title" style="margin:6px 0;">Loading...</h2>
+              <p class="section-sub" style="margin:0;">Steps are locked until you complete the current activity. Final exam unlocks the checklist and certificate.</p>
+            </div>
+            <div class="progress">
+              <div class="small" id="progressText">0% complete</div>
+              <div class="progress-bar"><div class="progress-fill"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <section id="content" class="content-area"></section>
+
+        <div class="footer-actions">
+          <div class="alert">Complete steps in order. Next stays locked until you finish the current step.</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button id="backBtn" class="button secondary">Previous</button>
+            <button id="nextBtn" class="button">Next</button>
+            <a href="certificate.html" id="certificateLink" class="button" style="display:none;">Certificate</a>
+            <button id="resetProgress" class="button secondary">Reset training</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="lockedModal" class="modal panel">
+    <h3>Finish this step to continue</h3>
+    <p class="small">Each activity must be completed before moving forward. This keeps the CSIR workflow realistic.</p>
+    <button id="closeModal" class="button">Close</button>
+  </dialog>
+
+  <dialog id="confirmReset" class="modal panel">
+    <h3>Reset all progress?</h3>
+    <p class="small">This clears your role, name, quizzes, and exam results stored in localStorage.</p>
+    <div class="footer-actions">
+      <button id="confirmResetNo" class="button secondary">Cancel</button>
+      <button id="confirmResetYes" class="button">Reset now</button>
+    </div>
+  </dialog>
+
+  <div id="completionBanner" class="banner" style="display:none; max-width:1180px; margin:20px auto;">All required steps and the final exam are complete. Checklist and certificate are unlocked.</div>
+
+  <script src="js/curriculum.js"></script>
+  <script type="module" src="js/storage.js"></script>
+  <script type="module" src="js/runtime-sync.js"></script>
+  <script type="module" src="js/courseRunner.js"></script>
+</body>
+</html>
