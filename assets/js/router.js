@@ -1,4 +1,5 @@
 const Router = (() => {
+  const deepDive = new URLSearchParams(window.location.search).get('mode') === 'deepdive';
   const pages = [
     'landing','overview','flow','role-select','event-vs-incident','severity-triage','step-prepare','step-identify','step-investigate','step-respond','step-recover','step-followup','comms','reporting-awareness','evidence','audit-etiquette','scenarios','knowledge-check','checklist-download','completion-certificate'
   ];
@@ -45,7 +46,7 @@ const Router = (() => {
     const hash = window.location.hash.replace('#/','');
     const progress = Progress.state();
     let target = routes[hash] ? hash : 'landing';
-    if ((target === 'checklist-download' || target === 'completion-certificate') && progress.score < 80) {
+    if (!deepDive && (target === 'checklist-download' || target === 'completion-certificate') && progress.score < 80) {
       target = 'knowledge-check';
       window.location.hash = '#/knowledge-check';
     }
@@ -64,7 +65,7 @@ const Router = (() => {
     const page = window.location.hash.replace('#/','');
     const progress = Progress.state();
     let target = routes[page] ? page : 'landing';
-    if ((target === 'checklist-download' || target === 'completion-certificate') && progress.score < 80) {
+    if (!deepDive && (target === 'checklist-download' || target === 'completion-certificate') && progress.score < 80) {
       target = 'knowledge-check';
       window.location.hash = '#/knowledge-check';
     }
