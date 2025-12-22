@@ -7,21 +7,28 @@
   <link rel="stylesheet" href="css/theme.css">
   <style>
     .hero { display:grid; gap:12px; }
-    .grid.two { display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:14px; }
+    .grid.two { display:grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap:18px; }
+    .layout-shell { max-width: 1200px; }
+    .panel.card { padding:18px 20px; }
+    .section-sub { max-width:70ch; }
     .pill.inline { display:inline-block; padding:6px 10px; border-radius:14px; background:#eef2fa; color:#1c2b4a; font-weight:600; }
-    .quick-list { margin:0; padding-left:18px; }
+    .quick-list { margin:0; padding-left:18px; line-height:1.4; }
     .quick-list li { margin-bottom:8px; }
-    .card-grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); }
+    .card-grid { display:grid; gap:14px; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); }
     .jump-links { display:flex; flex-wrap:wrap; gap:8px; }
     .jump-links a { padding:6px 10px; border-radius:16px; background:#f1f4fb; color:#1c2b4a; text-decoration:none; font-weight:600; font-size:13px; }
     .jump-links a:hover { background:#e5ebf7; }
-    .process-map { display:grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
+    .process-map { display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
     .process-step { border:1px solid #d9e3f4; border-radius:12px; padding:12px; background:#f8fafc; display:grid; gap:6px; }
     .step-badge { width:28px; height:28px; border-radius:50%; background:#1c2b4a; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; }
     .process-step h4 { margin:0; font-size:14px; }
     .process-step p { margin:0; font-size:12px; color:#2c3d5a; }
     .legend { display:flex; flex-wrap:wrap; gap:8px; font-size:12px; color:#3b4a68; }
     .legend span { background:#edf2fb; padding:4px 8px; border-radius:12px; }
+    @media (max-width: 720px) {
+      .grid.two { grid-template-columns: 1fr; }
+      .process-map { grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); }
+    }
   </style>
 </head>
 <body class="page">
@@ -31,7 +38,7 @@
       <div class="footer-actions" style="gap:10px;">
         <a class="button ghost" href="index.html">Back to Training Home</a>
         <a class="button secondary" href="learn.html">Open Guided Training</a>
-        <a class="button" href="csir/curriculum.html">View Full Curriculum</a>
+        <a class="button" href="csir/curriculum.html">View CSIR Process</a>
       </div>
     </div>
   </header>
