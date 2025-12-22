@@ -4,6 +4,7 @@ const UI = (() => {
   let scenarios = [];
   let quiz = [];
   let checklist = [];
+  const deepDive = new URLSearchParams(window.location.search).get('mode') === 'deepdive';
 
   const loadData = async () => {
     const [contentRes, roleRes, scenarioRes, quizRes, checklistRes] = await Promise.all([
@@ -63,7 +64,16 @@ const UI = (() => {
     if (pageData.roleCallout) renderRoleCallout(pageData.roleCallout);
     renderActions(pageId);
     if (pageId === 'role-select') renderRoleSelector();
-    if (pageId === 'knowledge-check') Quiz.render(quiz);
+    if (pageId === 'knowledge-check') {
+      if (deepDive) {
+        const quizContainer = document.querySelector('#quiz-container');
+        const submit = document.querySelector('#submit-quiz');
+        if (quizContainer) quizContainer.innerHTML = '<div class="callout">Deep dive mode: knowledge checks are optional and disabled. Review the notes, then continue to any step.</div>';
+        if (submit) submit.style.display = 'none';
+      } else {
+        Quiz.render(quiz);
+      }
+    }
     if (pageId === 'scenarios') renderScenarios();
     if (pageId === 'checklist-download') renderChecklist();
     if (pageId === 'completion-certificate') Certificate.render();
@@ -145,11 +155,11 @@ const UI = (() => {
     const nextBtn = document.querySelector('#btn-next');
     backBtn.onclick = () => Router.prev();
     nextBtn.onclick = () => {
-      if (pageId === 'knowledge-check') {
+      if (!deepDive && pageId === 'knowledge-check') {
         Quiz.grade();
       }
       const progress = Progress.state();
-      if ((pageId === 'knowledge-check' || pageId === 'checklist-download' || pageId === 'completion-certificate') && progress.score < 80) {
+      if (!deepDive && (pageId === 'knowledge-check' || pageId === 'checklist-download' || pageId === 'completion-certificate') && progress.score < 80) {
         alert('You must score at least 80% on the knowledge check to unlock the checklist and certificate.');
         Router.go('knowledge-check');
         return;
@@ -190,6 +200,12 @@ const UI = (() => {
     container.innerHTML = checklist.groups.map(group => `<div class="checklist-group"><div class="muted">Review: ${group.frequency}</div><h4>${group.title}</h4><ul>${group.items.map(item => `<li>${item}</li>`).join('')}</ul></div>`).join('');
     const progress = Progress.state();
     const downloadBtn = document.querySelector('#download-checklist');
+    if (deepDive) {
+      downloadBtn.disabled = false;
+      downloadBtn.textContent = 'Download checklist';
+      downloadBtn.onclick = () => Download.checklist(container.innerHTML);
+      return;
+    }
     if (progress.score < 80) {
       downloadBtn.disabled = true;
       downloadBtn.textContent = 'Pass knowledge check to download';
@@ -235,6 +251,15 @@ const UI = (() => {
 
   const init = async () => {
     await loadData();
+    if (deepDive) {
+      document.body.classList.add('mode-deep-dive');
+      const banner = document.querySelector('.alert');
+      if (banner) banner.textContent = 'Deep dive mode: navigate freely—no locked steps or required quizzes.';
+      const heroSub = document.querySelector('.section-sub');
+      if (heroSub) heroSub.textContent = 'Explore the CSIR steps at your own pace. Assessments are optional in this mode.';
+      const progressLabel = document.querySelector('#progressText');
+      if (progressLabel) progressLabel.textContent = 'Deep dive mode';
+    }
     roleDropdown();
     resumeButton();
     document.querySelectorAll('.nav-group header').forEach(header => {
