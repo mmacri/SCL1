@@ -16,6 +16,10 @@
     .member-list li { margin-bottom:6px; }
     .add-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
     .add-row input { min-width: 240px; }
+    @media (max-width: 720px) {
+      .add-row input,
+      .add-row button { width: 100%; }
+    }
   </style>
 </head>
 <body class="page">

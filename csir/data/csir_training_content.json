@@ -91,7 +91,7 @@
   },
   "audit-etiquette": {
     "title": "Audit Etiquette",
-    "body": "<p>Audits and reviews verify CSIR execution.</p><ul><li>Answer only what is asked; stay factual and avoid speculation.</li><li>Reference documented procedures and evidence, not memory.</li><li>If you do not know an answer, state that you will verify and follow up.</li><li>Keep demeanor professional; the record is part of compliance evidence.</li><li>Ensure documents presented are current and approved versions.</li></ul>",
+    "body": "<p>Audits and reviews verify CSIR execution.</p><ul><li>Answer only what is asked; keep it factual and brief.</li><li>Reference documented procedures and evidence, not memory.</li><li>If you do not know an answer, state that you will verify and follow up.</li><li>Do not invent timelines, causes, or remediation steps.</li><li>Ask for clarification when a question is ambiguous or out of scope.</li><li>Confirm the exact artifact requested (log, ticket, report, screenshot).</li><li>Ensure documents presented are current and approved versions.</li></ul><p>When in doubt, state your role, explain what you observed, and route questions to Incident Commander, ECS, or Compliance.</p>",
     "done": ["You know to stay factual and avoid speculation during audits.", "You can point auditors to documented evidence.", "You understand professionalism is part of the record."],
     "roleCallout": "audit"
   },

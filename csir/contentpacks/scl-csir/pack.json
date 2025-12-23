@@ -308,14 +308,16 @@
       "estMinutes": 4,
       "contentBlocks": [
         {"kind": "bullets", "items": [
-          "Answer only what is asked; don’t speculate.",
-          "If you don’t know: say so and offer to follow up.",
-          "Use evidence; avoid opinions.",
-          "Keep answers consistent with documented process.",
-          "Don’t invent timelines or facts.",
-          "Ask for clarification if a question is ambiguous.",
-          "Confirm what artifact is requested (log, ticket, screenshot, report)."
-        ]}
+          "Answer only what is asked; keep it factual and brief.",
+          "If you do not know: say so and offer to verify and follow up.",
+          "Use evidence and documented procedures; avoid opinions or guesses.",
+          "Do not invent timelines, causes, or remediation steps.",
+          "Ask for clarification if a question is ambiguous or out of scope.",
+          "Confirm the exact artifact requested (log, ticket, screenshot, report).",
+          "Identify the system time, time zone, and any clock offsets used in evidence."
+        ]},
+        {"kind": "callout", "tone": "info", "title": "Audit do and do not", "text": "Do: cite the CSIR plan, incident logs, and approved runbooks. Do not: speculate, share drafts, or expose sensitive data outside approved channels."},
+        {"kind": "callout", "tone": "warning", "title": "If asked outside your scope", "text": "State your role, explain what you observed, and direct the auditor to the Incident Commander, ECS, or Compliance lead for final responses."}
       ],
       "knowledgeCheck": {
         "title": "Audit etiquette quiz",

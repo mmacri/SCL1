@@ -16,6 +16,11 @@
     .report-table th, .report-table td { padding:8px 10px; border-bottom:1px solid var(--border); text-align:left; }
     .report-table th { background:#f5f7fb; font-weight:600; }
     .report-meta { display:flex; gap:12px; flex-wrap:wrap; }
+    @media (max-width: 720px) {
+      .report-table { display:block; overflow-x:auto; }
+      .report-controls { flex-direction: column; align-items: stretch; }
+      .report-controls select, .report-controls button { width: 100%; }
+    }
   </style>
 </head>
 <body class="page">
