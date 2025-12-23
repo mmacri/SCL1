@@ -40,6 +40,10 @@
       display: grid;
       gap: 12px;
     }
+    .header .brand {
+      font-size: 18px;
+      font-weight: 700;
+    }
     .hero-intro h1 {
       color: #fff;
       margin: 0;
@@ -74,10 +78,10 @@
     }
     .pill {
       display: inline-block;
-      padding: 4px 10px;
-      border-radius: 20px;
-      background: #e7ecf5;
-      color: #0b1f44;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #d3dfef;
       font-weight: 600;
     }
     .path-card.primary .pill {
@@ -94,6 +98,22 @@
       color: var(--muted);
       font-size: 14px;
       margin-top: 6px;
+    }
+    .site-footer {
+      margin: 24px auto 32px;
+      padding: 16px 20px;
+      max-width: 1100px;
+      color: var(--muted);
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .site-footer a {
+      color: #0b1f44;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -134,6 +154,14 @@
       </div>
     </div>
   </main>
+  <footer class="site-footer">
+    <span>Support: OT CSIR Training Team</span>
+    <span>
+      <a href="mailto:csir-training@scl.example">csir-training@scl.example</a>
+      ·
+      <a href="mailto:it-helpdesk@scl.example">it-helpdesk@scl.example</a>
+    </span>
+  </footer>
 </body>
 </html>
 
