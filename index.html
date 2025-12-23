@@ -72,6 +72,27 @@
       gap: 8px;
       box-shadow: var(--shadow);
     }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #eef2ff;
+      color: #0b1f44;
+      flex: 0 0 auto;
+    }
+    .card-icon svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
     .action-card h3 {
       margin: 0;
       color: #0b1f44;
@@ -138,17 +159,48 @@
 
     <div class="primary-actions">
       <div class="action-card">
-        <h3>CSIR Guidance</h3>
+        <div class="card-header">
+          <span class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img">
+              <rect x="3.5" y="4" width="7.5" height="10" rx="1.5"></rect>
+              <rect x="13" y="4" width="7.5" height="10" rx="1.5"></rect>
+              <path d="M6 8h3"></path>
+              <path d="M15.5 8h3"></path>
+              <path d="M6 11h2"></path>
+              <path d="M15.5 11h2"></path>
+            </svg>
+          </span>
+          <h3>CSIR Guidance</h3>
+        </div>
         <p class="section-sub">Fast reference for the CSIR process.</p>
         <a class="button" href="process-deep-dive.html">Open CSIR Guidance</a>
       </div>
       <div class="action-card">
-        <h3>Certification</h3>
+        <div class="card-header">
+          <span class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img">
+              <circle cx="12" cy="9" r="4.5"></circle>
+              <path d="M8.5 13.5v6l3.5-2 3.5 2v-6"></path>
+            </svg>
+          </span>
+          <h3>Certification</h3>
+        </div>
         <p class="section-sub">Register, resume, and complete certification.</p>
         <a class="button secondary" href="csir/my-learning.html">Start Certification</a>
       </div>
       <div class="action-card">
-        <h3>CSIR Process</h3>
+        <div class="card-header">
+          <span class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img">
+              <rect x="3.5" y="4" width="6.5" height="4.5" rx="1"></rect>
+              <rect x="13.5" y="4" width="7" height="4.5" rx="1"></rect>
+              <rect x="3.5" y="14.5" width="7" height="4.5" rx="1"></rect>
+              <path d="M7 8.5v4"></path>
+              <path d="M7 12.5h7"></path>
+            </svg>
+          </span>
+          <h3>CSIR Process</h3>
+        </div>
         <p class="section-sub">Browse the full process and escalation flow.</p>
         <a class="button ghost" href="csir/curriculum.html">View CSIR Process</a>
       </div>
