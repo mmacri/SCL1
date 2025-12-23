@@ -7,13 +7,13 @@ A GitHub Pages-ready training portal that delivers guided, role-based OT Cyber S
 2. Serve the site with any static server (no build needed). Examples:
    - `python3 -m http.server 8000`
    - `npx serve`
-3. Visit `http://localhost:8000/index.html#/landing`.
+3. Visit `http://localhost:8000/index.html`.
 4. Progress, role selection, quiz results, and certificate metadata are stored in `localStorage`. With the API enabled, progress is also synced to Azure SQL.
 
 ## Deploy on GitHub Pages
 1. Commit and push to the default branch.
 2. Enable GitHub Pages on the repository (root folder).
-3. Access the site via the GitHub Pages URL, using hash routes such as `#/landing` and `#/knowledge-check`.
+3. Access the site via the GitHub Pages URL (for example, `index.html`).
 
 ## API + Azure SQL (optional)
 
@@ -25,11 +25,11 @@ See:
 
 ## Update training content
 Training copy, roles, quiz, scenarios, and checklist content are all JSON-driven:
-- `data/csir_training_content.json` - Page titles, bodies, and completion criteria.
-- `data/csir_roles.json` - Role definitions and dynamic callouts per page group.
-- `data/csir_quiz.json` - 10-question knowledge check with answers and explanations.
-- `data/csir_scenarios.json` - Role-aware scenarios with expected actions.
-- `data/csir_checklist.json` - Operational checklist grouped by CSIR phases.
+- `csir/data/csir_training_content.json` - Page titles, bodies, and completion criteria.
+- `csir/data/csir_roles.json` - Role definitions and dynamic callouts per page group.
+- `csir/data/csir_quiz.json` - 10-question knowledge check with answers and explanations.
+- `csir/data/csir_scenarios.json` - Role-aware scenarios with expected actions.
+- `csir/data/csir_checklist.json` - Operational checklist grouped by CSIR phases.
 
 Update these files to change copy without touching layout or logic. Keep IDs stable to preserve routing.
 
@@ -43,9 +43,9 @@ Update these files to change copy without touching layout or logic. Keep IDs sta
 ## Project structure
 ```
 index.html
-assets/
-  css/ (theme, layout, components)
-  js/ (router, app logic, storage, progress, role, quiz, certificate, download)
-data/ (JSON content for all pages, roles, quiz, scenarios, checklist)
-pages/ (HTML partials rendered via router)
+css/ (shared site theme and layout)
+assets/ (brand assets like logo.svg)
+csir/ (CSIR training, curriculum, and admin pages)
+api/ (optional Express API for Azure SQL + reporting)
+docs/ (deployment and security guidance)
 ```

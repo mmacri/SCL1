@@ -67,7 +67,6 @@
           "Handle audits professionally (what to say / not say)"
         ]},
         { "kind": "callout", "tone": "info", "title": "Estimated time", "text": "Time adjusts by role path. Steps unlock in order. Use \"Start training\" to continue."}
-        ,{ "kind": "callout", "tone": "accent", "title": "Optional CIP alignment", "text": "Need CIP-007 alignment? Open the Appendix at modules/cip007/index.html after you finish the core CSIR steps."}
       ],
       "completionCriteria": ["cta"],
       "ctaLabel": "Start training"
