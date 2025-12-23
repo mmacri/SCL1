@@ -54,12 +54,12 @@
       flex-wrap: wrap;
       margin-top: 6px;
     }
-    .quick-grid {
+    .primary-actions {
       display: grid;
-      gap: 14px;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     }
-    .quick-card {
+    .action-card {
       border: 1px solid var(--border);
       border-radius: 14px;
       background: #fff;
@@ -68,49 +68,9 @@
       gap: 8px;
       box-shadow: var(--shadow);
     }
-    .quick-card h3 {
+    .action-card h3 {
       margin: 0;
       color: #0b1f44;
-    }
-    .course-grid {
-      display: grid;
-      gap: 14px;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    }
-    .path-card {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: #fff;
-      padding: 18px;
-      display: grid;
-      gap: 10px;
-      box-shadow: var(--shadow);
-    }
-    .path-card.primary {
-      background: linear-gradient(135deg, #0f52ba 0%, #1d4ed8 55%, #3652d9 100%);
-      color: #fff;
-      border-color: #0f52ba;
-    }
-    .path-card.primary h2,
-    .path-card.primary p,
-    .path-card.primary li {
-      color: #fff;
-    }
-    .path-card h2 {
-      margin: 0;
-      color: #0b1f44;
-    }
-    .path-card p {
-      margin: 0;
-      color: var(--muted);
-    }
-    .path-card ul {
-      margin: 0;
-      padding-left: 18px;
-      color: var(--muted);
-    }
-    .path-card.primary ul {
-      color: rgba(255,255,255,0.9);
     }
     .pill {
       display: inline-block;
@@ -152,75 +112,28 @@
   <main class="main-landing">
     <div class="hero-intro">
       <div class="pill">Seattle City Light Training home</div>
-      <h1 class="section-title">Find the CSIR process fast</h1>
-      <p class="section-sub">Open guidance for quick reference or start certification tracking in My Learning.</p>
-      <div class="hero-actions">
+      <h1 class="section-title">Choose where to go</h1>
+      <p class="section-sub">Pick the path that matches your goal.</p>
+    </div>
+
+    <div class="primary-actions">
+      <div class="action-card">
+        <h3>CSIR Guidance</h3>
+        <p class="section-sub">Fast reference for the CSIR process.</p>
         <a class="button" href="process-deep-dive.html">Open CSIR Guidance</a>
+      </div>
+      <div class="action-card">
+        <h3>Certification</h3>
+        <p class="section-sub">Register, resume, and complete certification.</p>
         <a class="button secondary" href="csir/my-learning.html">Start Certification</a>
+      </div>
+      <div class="action-card">
+        <h3>CSIR Process</h3>
+        <p class="section-sub">Browse the full process and escalation flow.</p>
         <a class="button ghost" href="csir/curriculum.html">View CSIR Process</a>
       </div>
     </div>
-
-    <div class="quick-grid">
-      <div class="quick-card">
-        <h3>Need the process now?</h3>
-        <p class="section-sub">Use CSIR Guidance for a fast reference during real-time coordination.</p>
-        <a class="button ghost" href="process-deep-dive.html">Open guidance</a>
-      </div>
-      <div class="quick-card">
-        <h3>Need to certify?</h3>
-        <p class="section-sub">Go to My Learning to register, resume, and complete certification.</p>
-        <a class="button ghost" href="csir/my-learning.html">Go to My Learning</a>
-      </div>
-      <div class="quick-card">
-        <h3>Need the full map?</h3>
-        <p class="section-sub">Browse the CSIR process modules and escalation flow.</p>
-        <a class="button ghost" href="csir/curriculum.html">Open process map</a>
-      </div>
-    </div>
-
-    <div class="course-grid" id="courseGrid"></div>
-
-    <div class="landing-footer">More courses will appear here as they are added.</div>
   </main>
-  <script>
-    (function() {
-      const grid = document.getElementById('courseGrid');
-      const apiBase = (window.SCL_API_BASE || localStorage.getItem('scl_api_base') || '').replace(/\/$/, '');
-      const apiUrl = apiBase ? `${apiBase}/api/courses` : '/api/courses';
-      const fallback = [{
-        courseCode: 'CSIR-2025',
-        courseName: 'Seattle City Light - OT Cyber Security Incident Response (CSIR) Training',
-        versionLabel: '2025',
-        isActive: true
-      }];
-
-      function renderCourses(list) {
-        const courses = list && list.length ? list : fallback;
-        grid.innerHTML = '';
-        courses.forEach((course) => {
-          const card = document.createElement('div');
-          card.className = 'path-card primary';
-          card.innerHTML = `
-            <div class="pill">${course.versionLabel}</div>
-            <h2>${course.courseName}</h2>
-            <p class="section-sub">Open the CSIR process and start or resume your learning path.</p>
-            <div class="footer-actions">
-              <a class="button" href="csir/index.html">CSIR Guidance</a>
-              <a class="button secondary" href="csir/my-learning.html">Certification</a>
-              <a class="button ghost" href="process-deep-dive.html">CSIR Guidance</a>
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-      }
-
-      fetch(apiUrl)
-        .then((res) => res.ok ? res.json() : fallback)
-        .then(renderCourses)
-        .catch(() => renderCourses(fallback));
-    })();
-  </script>
 </body>
 </html>
 
