@@ -24,34 +24,55 @@
       box-shadow: var(--shadow);
     }
     .main-landing {
-      max-width: 980px;
+      max-width: 1100px;
       margin: 48px auto;
       padding: 0 20px 48px;
       display: grid;
-      gap: 20px;
-    }
-    .course-grid {
-      display: grid;
-      gap: 14px;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
     }
     .hero-intro {
-      padding: 24px;
+      padding: 28px;
       border-radius: 18px;
-      background: #0f172a;
+      background: linear-gradient(135deg, #0b1f44 0%, #10356f 60%, #1a4b8e 100%);
       color: #e2e8f0;
       box-shadow: var(--shadow);
-      text-align: center;
+      text-align: left;
+      display: grid;
+      gap: 12px;
     }
     .hero-intro h1 {
       color: #fff;
-      margin: 6px 0 10px;
-    }
-    .hero-intro .section-sub {
-      color: #cbd5e1;
       margin: 0;
     }
-    .path-grid {
+    .hero-intro .section-sub {
+      color: #d3dfef;
+      margin: 0;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .quick-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+    .quick-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      padding: 16px;
+      display: grid;
+      gap: 8px;
+      box-shadow: var(--shadow);
+    }
+    .quick-card h3 {
+      margin: 0;
+      color: #0b1f44;
+    }
+    .course-grid {
       display: grid;
       gap: 14px;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -121,18 +142,41 @@
     <div class="header-inner">
       <div class="brand"><img src="assets/logo.svg" alt="SCL logo">Training Home</div>
       <nav class="top-nav">
-        <a href="process-deep-dive.html">Process deep dive</a>
-        <a href="csir/my-learning.html">My learning</a>
-        <a href="csir/curriculum.html">CSIR process</a>
+        <a href="process-deep-dive.html">CSIR Guidance</a>
+        <a href="csir/my-learning.html">Certification</a>
+        <a href="csir/curriculum.html">CSIR Process</a>
       </nav>
     </div>
   </header>
 
   <main class="main-landing">
     <div class="hero-intro">
-      <div class="pill">Seattle City Light • Training home</div>
-      <h1 class="section-title">Available training</h1>
-      <p class="section-sub">Select a course to open the process content or start your learning path.</p>
+      <div class="pill">Seattle City Light Training home</div>
+      <h1 class="section-title">Find the CSIR process fast</h1>
+      <p class="section-sub">Open guidance for quick reference or start certification tracking in My Learning.</p>
+      <div class="hero-actions">
+        <a class="button" href="process-deep-dive.html">Open CSIR Guidance</a>
+        <a class="button secondary" href="csir/my-learning.html">Start Certification</a>
+        <a class="button ghost" href="csir/curriculum.html">View CSIR Process</a>
+      </div>
+    </div>
+
+    <div class="quick-grid">
+      <div class="quick-card">
+        <h3>Need the process now?</h3>
+        <p class="section-sub">Use CSIR Guidance for a fast reference during real-time coordination.</p>
+        <a class="button ghost" href="process-deep-dive.html">Open guidance</a>
+      </div>
+      <div class="quick-card">
+        <h3>Need to certify?</h3>
+        <p class="section-sub">Go to My Learning to register, resume, and complete certification.</p>
+        <a class="button ghost" href="csir/my-learning.html">Go to My Learning</a>
+      </div>
+      <div class="quick-card">
+        <h3>Need the full map?</h3>
+        <p class="section-sub">Browse the CSIR process modules and escalation flow.</p>
+        <a class="button ghost" href="csir/curriculum.html">Open process map</a>
+      </div>
     </div>
 
     <div class="course-grid" id="courseGrid"></div>
@@ -162,9 +206,9 @@
             <h2>${course.courseName}</h2>
             <p class="section-sub">Open the CSIR process and start or resume your learning path.</p>
             <div class="footer-actions">
-              <a class="button" href="csir/index.html">Open CSIR</a>
-              <a class="button secondary" href="csir/my-learning.html">My learning</a>
-              <a class="button ghost" href="process-deep-dive.html">Process deep dive</a>
+              <a class="button" href="csir/index.html">CSIR Guidance</a>
+              <a class="button secondary" href="csir/my-learning.html">Certification</a>
+              <a class="button ghost" href="process-deep-dive.html">CSIR Guidance</a>
             </div>
           `;
           grid.appendChild(card);
@@ -179,3 +223,4 @@
   </script>
 </body>
 </html>
+
