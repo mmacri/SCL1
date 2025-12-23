@@ -6,40 +6,399 @@
   <title>CSIR Process Deep Dive</title>
   <link rel="stylesheet" href="css/theme.css">
   <style>
-    .hero { display:grid; gap:12px; }
-    .grid.two { display:grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap:20px; }
-    .layout-shell { max-width: 1200px; }
-    .container.layout-shell { padding: 28px 0 40px; }
-    .panel.card { padding:22px 24px; }
-    .section-sub { max-width:72ch; }
-    .pill.inline { display:inline-block; padding:6px 10px; border-radius:14px; background:#eef2fa; color:#1c2b4a; font-weight:600; }
-    .quick-list { margin:0; padding-left:18px; line-height:1.55; }
-    .quick-list li { margin-bottom:8px; }
-    .card-grid { display:grid; gap:14px; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); }
-    .jump-links { display:flex; flex-wrap:wrap; gap:8px; }
-    .jump-links a { padding:6px 10px; border-radius:16px; background:#f1f4fb; color:#1c2b4a; text-decoration:none; font-weight:600; font-size:13px; }
-    .jump-links a:hover { background:#e5ebf7; }
-    .process-map { display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
-    .process-step { border:1px solid #d9e3f4; border-radius:12px; padding:12px; background:#f8fafc; display:grid; gap:6px; }
-    .step-badge { width:28px; height:28px; border-radius:50%; background:#1c2b4a; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; }
-    .process-step h4 { margin:0; font-size:14px; }
-    .process-step p { margin:0; font-size:12px; color:#2c3d5a; }
-    .legend { display:flex; flex-wrap:wrap; gap:8px; font-size:12px; color:#3b4a68; }
-    .legend span { background:#edf2fb; padding:4px 8px; border-radius:12px; }
-    .nav-card { display:grid; gap:12px; }
-    .nav-actions { display:flex; flex-wrap:wrap; gap:10px; }
-    .nav-actions .button { white-space:nowrap; }
-    .nav-grid { display:grid; gap:14px; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); }
-    .nav-section { border:1px solid #e0e7f4; border-radius:12px; padding:14px; background:#fbfcff; }
-    .nav-section h3 { margin:0 0 8px; font-size:14px; color:#1c2b4a; }
-    .nav-section ul { margin:0; padding-left:18px; }
-    .nav-section li { margin-bottom:6px; }
-    .red-phone { display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:12px; background:#ffe9e9; border:1px solid #f2b1b1; color:#7a1e1e; font-weight:600; text-decoration:none; }
-    .red-phone span { font-weight:700; letter-spacing:0.02em; }
-    @media (max-width: 720px) {
-      .grid.two { grid-template-columns: 1fr; }
-      .process-map { grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); }
-      .panel.card { padding:18px 18px; }
+    :root {
+      --scl-navy: #0b1f44;
+      --scl-blue: #0f52ba;
+      --scl-sky: #e9f0fb;
+      --scl-ice: #f7f9fc;
+      --scl-green: #166534;
+      --scl-yellow: #ca8a04;
+      --scl-orange: #ea580c;
+      --scl-red: #b91c1c;
+    }
+    body {
+      background: linear-gradient(180deg, #f9fbff 0%, #eef2f7 100%);
+    }
+    .layout-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 22px 20px 48px;
+      display: grid;
+      gap: 16px;
+    }
+    .hero {
+      display: grid;
+      gap: 12px;
+      border-radius: 18px;
+      padding: 22px;
+      background: linear-gradient(135deg, #0b1f44 0%, #10356f 60%, #1a4b8e 100%);
+      color: #e2e8f0;
+      box-shadow: var(--shadow);
+    }
+    .hero h1 {
+      margin: 0;
+      color: #fff;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+    }
+    .hero .section-sub { color: #d3dfef; }
+    .hero-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      align-items: center;
+    }
+    .hero-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+    }
+    .flow-diagram {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 8px;
+      align-items: center;
+    }
+    .flow-step {
+      padding: 10px 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 700;
+      color: #fff;
+      font-size: 0.9rem;
+      position: relative;
+    }
+    .flow-step .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      margin-bottom: 6px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+    .flow-step svg {
+      width: 16px;
+      height: 16px;
+    }
+    .flow-step small {
+      display: block;
+      font-weight: 500;
+      color: #d3dfef;
+      margin-top: 4px;
+      font-size: 0.75rem;
+    }
+    .flow-step:not(:last-child)::after {
+      content: '>';
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 700;
+    }
+    .hero-illustration {
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 12px;
+    }
+    .illustration {
+      width: 100%;
+      height: 140px;
+      display: block;
+    }
+    .section-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .pill-inline {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--scl-sky);
+      color: var(--scl-navy);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .timeline-phase {
+      border: 1px solid #d9e3f4;
+      border-radius: 12px;
+      padding: 14px;
+      background: #f8fafc;
+      display: grid;
+      gap: 10px;
+    }
+    .timeline-phase h3 { margin: 0; color: var(--scl-navy); font-size: 1.05rem; }
+    .timeline-phase ul { margin: 0; padding-left: 18px; color: #334155; }
+    .time-chip { font-weight: 700; color: var(--scl-blue); font-size: 0.9rem; }
+    .module-toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .search-input {
+      flex: 1 1 260px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.95rem;
+    }
+    .progress-pill {
+      background: #f1f5f9;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 700;
+      color: var(--scl-navy);
+      border: 1px solid #dbe3ef;
+    }
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .module-card {
+      border: 1px solid #dfe7f4;
+      border-radius: 14px;
+      padding: 16px;
+      background: #fff;
+      display: grid;
+      gap: 10px;
+      position: relative;
+    }
+    .module-card .difficulty {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #0b1f44;
+      background: #eef2ff;
+      border-radius: 999px;
+      padding: 4px 8px;
+    }
+    .module-card h3 { margin: 0; color: var(--scl-navy); }
+    .module-preview {
+      height: 56px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+      border: 1px solid #e2e8f0;
+      display: grid;
+      place-items: center;
+      color: #0b1f44;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .module-card ul { margin: 0; padding-left: 18px; color: #334155; }
+    .module-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-weight: 600;
+      color: #475569;
+      font-size: 0.9rem;
+    }
+    .module-progress {
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #0b1f44;
+      width: fit-content;
+    }
+    .module-progress.complete {
+      background: #ecfdf3;
+      border-color: #86efac;
+      color: #166534;
+    }
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .severity-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    .severity-table th,
+    .severity-table td {
+      border: 1px solid #e2e8f0;
+      padding: 8px;
+      text-align: left;
+    }
+    .sev-low { background: #ecfdf3; color: var(--scl-green); font-weight: 700; }
+    .sev-med { background: #fef9c3; color: var(--scl-yellow); font-weight: 700; }
+    .sev-high { background: #ffedd5; color: var(--scl-orange); font-weight: 700; }
+    .sev-crit { background: #fee2e2; color: var(--scl-red); font-weight: 700; }
+    .flowchart {
+      display: grid;
+      gap: 8px;
+      text-align: center;
+    }
+    .flowchart-branch {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+      align-items: center;
+    }
+    .flow-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--scl-navy);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .decision-tree {
+      display: grid;
+      gap: 10px;
+    }
+    .decision-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      align-items: center;
+    }
+    .decision-row .flow-node {
+      background: #fff;
+    }
+    .flow-node {
+      padding: 10px;
+      border: 1px dashed #cbd5f5;
+      border-radius: 10px;
+      background: #f8fafc;
+      font-weight: 600;
+      color: #0b1f44;
+    }
+    .icon-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px;
+    }
+    .icon-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 10px;
+      background: #fff;
+      display: grid;
+      gap: 8px;
+      align-items: center;
+      text-align: center;
+    }
+    .icon-card svg { width: 24px; height: 24px; margin: 0 auto; color: var(--scl-blue); }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .stat-card {
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+      background: #fff;
+    }
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--scl-navy);
+    }
+    .callout {
+      border-left: 4px solid var(--scl-blue);
+      background: #f8fafc;
+      padding: 14px;
+      border-radius: 12px;
+    }
+    .faq details {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+      margin-bottom: 8px;
+    }
+    .faq summary {
+      font-weight: 700;
+      color: var(--scl-navy);
+      cursor: pointer;
+    }
+    .footer-actions .button { white-space: nowrap; }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .tab-btn {
+      border: 1px solid #cbd5f5;
+      background: #fff;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--scl-navy);
+    }
+    .tab-btn.active {
+      background: #eef2ff;
+      border-color: #94a3b8;
+    }
+    .tab-panel {
+      display: none;
+      border: 1px solid #d9e3f4;
+      border-radius: 12px;
+      padding: 12px;
+      background: #f8fafc;
+    }
+    .tab-panel.active { display: block; }
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .role-card {
+      border: 1px solid #dfe7f4;
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+    }
+    .role-card h4 { margin: 0 0 6px; color: var(--scl-navy); }
+    .print-only { display: none; }
+    @media (max-width: 760px) {
+      .flow-diagram { grid-template-columns: 1fr; }
+      .flow-step:not(:last-child)::after { display: none; }
+    }
+    @media print {
+      body * { display: none !important; }
+      body.print-guide #print-guide,
+      body.print-pathway #print-pathway {
+        display: block !important;
+      }
+      #print-guide, #print-pathway {
+        padding: 0;
+        margin: 0;
+      }
     }
   </style>
 </head>
@@ -49,59 +408,511 @@
       <div class="brand"><img src="assets/logo.svg" alt="SCL logo">CSIR Process Deep Dive</div>
       <div class="footer-actions" style="gap:10px;">
         <a class="button ghost" href="index.html">Back to Training Home</a>
-        <a class="button secondary" href="csir/learn.html">My training</a>
+        <a class="button secondary" href="csir/my-learning.html">Certification</a>
         <a class="button" href="csir/curriculum.html">View CSIR Process</a>
       </div>
     </div>
   </header>
 
-  <main class="container layout-shell">
-    <section class="panel card hero">
-      <div>
-        <div class="pill">Seattle City Light OT CSIR</div>
-        <h1>Process overview and quick reference</h1>
-        <p class="section-sub">High-level view of the CSIR process: what it covers, when to use it, and the backbone activities from preparation through follow-up.</p>
+  <main class="layout-shell">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="pill-inline" style="background:rgba(255,255,255,0.15); color:#fff;">Seattle City Light OT CSIR</div>
+          <h1>CSIR Process Deep Dive</h1>
+          <p class="section-sub">Cybersecurity Incident Response (CSIR) for OT keeps power systems safe and reliable by defining how we detect, contain, and recover from cyber events across field, operations, engineering, and leadership teams.</p>
+        </div>
+        <div class="hero-card">
+          <div class="flow-diagram" aria-label="CSIR five phase flow">
+            <div class="flow-step">
+              <span class="icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3v6"></path><path d="M8 7h8"></path><path d="M5 13h14v8H5z"></path>
+                </svg>
+              </span>
+              Preparation
+              <small>Readiness, training, tools</small>
+            </div>
+            <div class="flow-step">
+              <span class="icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3l9 16H3l9-16z"></path><path d="M12 9v4"></path><circle cx="12" cy="17" r="1"></circle>
+                </svg>
+              </span>
+              Detection
+              <small>Identify and classify</small>
+            </div>
+            <div class="flow-step">
+              <span class="icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="14" rx="2"></rect><path d="M7 18v2h10v-2"></path>
+                </svg>
+              </span>
+              Containment
+              <small>Isolate safely</small>
+            </div>
+            <div class="flow-step">
+              <span class="icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 6l12 12"></path><path d="M6 18L18 6"></path>
+                </svg>
+              </span>
+              Eradication
+              <small>Remove root cause</small>
+            </div>
+            <div class="flow-step">
+              <span class="icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>
+              Recovery
+              <small>Restore operations</small>
+            </div>
+          </div>
+          <div class="hero-illustration">
+            <svg class="illustration" viewBox="0 0 640 200" role="img" aria-label="Seattle City Light infrastructure">
+              <rect width="640" height="200" fill="#f4f7fb"></rect>
+              <rect y="120" width="640" height="80" fill="#e4edf8"></rect>
+              <path d="M40 130h560" stroke="#9fb4d8" stroke-width="3"></path>
+              <rect x="60" y="90" width="60" height="40" fill="#c5d6ef"></rect>
+              <rect x="130" y="70" width="80" height="60" fill="#b4c9ea"></rect>
+              <rect x="230" y="85" width="50" height="45" fill="#cddbf2"></rect>
+              <rect x="310" y="60" width="90" height="70" fill="#b8ccea"></rect>
+              <rect x="420" y="90" width="70" height="40" fill="#c5d6ef"></rect>
+              <rect x="510" y="75" width="60" height="55" fill="#b4c9ea"></rect>
+              <path d="M100 130v40M180 130v40M260 130v40M350 130v40M450 130v40M550 130v40" stroke="#8aa4cf" stroke-width="4"></path>
+              <circle cx="580" cy="45" r="18" fill="#ffd166"></circle>
+            </svg>
+          </div>
+        </div>
       </div>
-      <div class="banner">Use this page as a fast reference. The certification and guided training paths stay gated and tracked separately.</div>
     </section>
 
-    <section class="panel card nav-card" id="nav">
-      <div class="pill inline">Navigate</div>
-      <h2>Jump to the CSIR process content</h2>
-      <p class="section-sub">Use these sections to reach the right part of the CSIR process quickly.</p>
-      <div class="nav-grid">
-        <div class="nav-section">
-          <h3>Start here</h3>
+    <section class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="pill-inline">Process overview</div>
+          <h2 class="section-title">Before, during, and after an incident</h2>
+        </div>
+        <div class="time-chip">Estimated total: 30-45 minutes</div>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Incident phase tabs">
+        <button class="tab-btn active" data-tab="tab-before" role="tab" aria-selected="true">Before (Preparation)</button>
+        <button class="tab-btn" data-tab="tab-during" role="tab" aria-selected="false">During (Active Response)</button>
+        <button class="tab-btn" data-tab="tab-after" role="tab" aria-selected="false">After (Post-Incident)</button>
+      </div>
+      <div id="tab-before" class="tab-panel active" role="tabpanel">
+        <h3>Preparation (before incidents)</h3>
+        <ul>
+          <li>Verify monitoring, backups, and contact lists</li>
+          <li>Review roles, responsibilities, and escalation paths</li>
+          <li>Practice response and evidence handling</li>
+          <li>Confirm reporting requirements and timeframes</li>
+        </ul>
+        <div class="time-chip">Est. 8-10 min</div>
+      </div>
+      <div id="tab-during" class="tab-panel" role="tabpanel">
+        <h3>Active Response (during incidents)</h3>
+        <ul>
+          <li>Detect and classify severity quickly</li>
+          <li>Contain safely while preserving evidence</li>
+          <li>Coordinate communications and approvals</li>
+          <li>Document actions and system state</li>
+        </ul>
+        <div class="time-chip">Est. 14-18 min</div>
+      </div>
+      <div id="tab-after" class="tab-panel" role="tabpanel">
+        <h3>Post-Incident (after resolution)</h3>
+        <ul>
+          <li>Recover operations and validate systems</li>
+          <li>Complete reporting and compliance follow-up</li>
+          <li>Capture lessons learned and update plans</li>
+          <li>Archive evidence and finalize logs</li>
+        </ul>
+        <div class="time-chip">Est. 8-12 min</div>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <div class="module-toolbar">
+        <div>
+          <div class="pill-inline">Modules</div>
+          <h2 class="section-title">Preview the five training modules</h2>
+          <p class="section-sub">Search by topic, see difficulty, and jump into the right module.</p>
+        </div>
+        <div class="progress-pill" id="progressSummary">You have completed 0 of 5 modules</div>
+      </div>
+      <div class="module-toolbar" style="margin-top:10px;">
+        <input id="moduleSearch" class="search-input" type="search" placeholder="Search topics (e.g., escalation, severity, evidence)">
+        <a class="button ghost" href="csir/learn.html">Test your knowledge</a>
+      </div>
+      <div class="module-grid" id="moduleGrid">
+        <article class="module-card" data-module="module-1" data-keywords="overview basics reporting contacts">
+          <span class="difficulty">Foundational</span>
+          <div class="module-preview">CSIR 101</div>
+          <h3>Module 1: CSIR Overview</h3>
+          <p>Understand what counts as an OT cyber incident and the first actions expected from every role.</p>
           <ul>
-            <li><a href="csir/curriculum.html#home">CSIR overview</a></li>
-            <li><a href="csir/curriculum.html#module-1">Module 1: CSIR Overview</a></li>
+            <li>What is CSIR in OT</li>
+            <li>When to report</li>
+            <li>Initial actions</li>
+          </ul>
+          <div class="module-meta"><span>Est. 6-8 min</span><span>Role: All staff</span></div>
+          <div class="module-progress" data-progress>Not started</div>
+          <a class="button" href="csir/curriculum.html#module-1">Open module</a>
+        </article>
+        <article class="module-card" data-module="module-2" data-keywords="roles communications leadership notifications">
+          <span class="difficulty">Foundational</span>
+          <div class="module-preview">Roles + Comms</div>
+          <h3>Module 2: Roles & Communications</h3>
+          <p>See how incident leadership, technical leads, and responders coordinate decisions and messaging.</p>
+          <ul>
+            <li>Role responsibilities</li>
+            <li>Notification matrix</li>
+            <li>Communication rules</li>
+          </ul>
+          <div class="module-meta"><span>Est. 6-8 min</span><span>Difficulty: Foundational</span></div>
+          <div class="module-progress" data-progress>Not started</div>
+          <a class="button" href="csir/curriculum.html#module-2">Open module</a>
+        </article>
+        <article class="module-card" data-module="module-3" data-keywords="terminology severity classification definitions">
+          <span class="difficulty">Intermediate</span>
+          <div class="module-preview">Severity</div>
+          <h3>Module 3: Terminology & Severity</h3>
+          <p>Classify events, incidents, and attempts to compromise with clear severity tiers.</p>
+          <ul>
+            <li>Definitions</li>
+            <li>Severity ladder</li>
+            <li>Examples and thresholds</li>
+          </ul>
+          <div class="module-meta"><span>Est. 6-7 min</span><span>Difficulty: Intermediate</span></div>
+          <div class="module-progress" data-progress>Not started</div>
+          <a class="button" href="csir/curriculum.html#module-3">Open module</a>
+        </article>
+        <article class="module-card" data-module="module-4" data-keywords="workflow phases containment recovery response">
+          <span class="difficulty">Intermediate</span>
+          <div class="module-preview">Workflow</div>
+          <h3>Module 4: Workflow by Phase</h3>
+          <p>Walk the CSIR phases and understand who acts when, with what approvals.</p>
+          <ul>
+            <li>Preparation through recovery</li>
+            <li>Containment choices</li>
+            <li>Decision checkpoints</li>
+          </ul>
+          <div class="module-meta"><span>Est. 7-9 min</span><span>Difficulty: Intermediate</span></div>
+          <div class="module-progress" data-progress>Not started</div>
+          <a class="button" href="csir/curriculum.html#module-4">Open module</a>
+        </article>
+        <article class="module-card" data-module="module-5" data-keywords="reporting documentation evidence audit">
+          <span class="difficulty">Advanced</span>
+          <div class="module-preview">Reporting</div>
+          <h3>Module 5: Reporting & Documentation</h3>
+          <p>Meet regulatory reporting obligations and capture audit-ready evidence.</p>
+          <ul>
+            <li>Reporting timelines</li>
+            <li>Evidence handling</li>
+            <li>Audit etiquette</li>
+          </ul>
+          <div class="module-meta"><span>Est. 7-9 min</span><span>Difficulty: Advanced</span></div>
+          <div class="module-progress" data-progress>Not started</div>
+          <a class="button" href="csir/curriculum.html#module-5">Open module</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="pill-inline">Quick reference</div>
+          <h2 class="section-title">Decision aids and escalation tools</h2>
+        </div>
+        <div class="footer-actions">
+          <button class="button secondary" id="downloadGuide">Download PDF reference</button>
+          <button class="button ghost" id="printPathway">Printable learning pathway</button>
+        </div>
+      </div>
+      <div class="quick-grid">
+        <div>
+          <h3>Severity level matrix</h3>
+          <table class="severity-table" aria-label="Severity level matrix">
+            <thead>
+              <tr><th>Level</th><th>Impact</th><th>Response</th><th>Example</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="sev-low">Low</td><td>Minimal impact, suspicious activity</td><td>Monitor, document, notify</td><td>Blocked scan on OT firewall</td></tr>
+              <tr><td class="sev-med">Medium</td><td>Potential reliability risk</td><td>Escalate to lead, contain</td><td>Malware alert on engineering host</td></tr>
+              <tr><td class="sev-high">High</td><td>Service interruption likely</td><td>Immediate leadership escalation</td><td>Loss of monitoring at substations</td></tr>
+              <tr><td class="sev-crit">Critical</td><td>Loss of critical services</td><td>Activate full response</td><td>Control center cannot dispatch</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3>Escalation decision tree</h3>
+          <div class="decision-tree">
+            <div class="flow-node">See unusual OT behavior?</div>
+            <div class="decision-row">
+              <div class="flow-node">Is safety or reliability at risk?</div>
+              <div class="flow-label">Yes</div>
+              <div class="flow-node">Call Incident Commander + ECS</div>
+            </div>
+            <div class="decision-row">
+              <div class="flow-node">Are systems impacted or evidence unclear?</div>
+              <div class="flow-label">No</div>
+              <div class="flow-node">Document and notify supervisor</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3>Key contacts</h3>
+          <div class="callout">
+            <strong>Incident Commander</strong>: coordinate decisions and comms<br>
+            <strong>Technical Lead</strong>: containment and recovery direction<br>
+            <strong>ECS / SOC</strong>: detection, reporting, audit alignment<br>
+            <strong>Compliance Lead</strong>: DOE-417, reportability questions
+          </div>
+        </div>
+      </div>
+      <div class="icon-row" style="margin-top:10px;">
+        <div class="icon-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l9 16H3l9-16z"></path><path d="M12 9v4"></path><circle cx="12" cy="17" r="1"></circle>
+          </svg>
+          <div>Alert</div>
+        </div>
+        <div class="icon-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
+          </svg>
+          <div>Communication</div>
+        </div>
+        <div class="icon-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+            <path d="M8 7h8M8 11h8M8 15h6"></path>
+          </svg>
+          <div>Documentation</div>
+        </div>
+        <div class="icon-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12h16"></path><path d="M14 6l6 6-6 6"></path>
+          </svg>
+          <div>Escalation</div>
+        </div>
+        <div class="icon-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6L9 17l-5-5"></path>
+          </svg>
+          <div>Resolution</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="pill-inline">Role responsibilities</div>
+          <h2 class="section-title">Who does what in a CSIR event</h2>
+        </div>
+      </div>
+      <div class="role-grid">
+        <div class="role-card">
+          <h4>Incident Commander</h4>
+          <ul>
+            <li>Lead decisions and approvals</li>
+            <li>Coordinate comms and escalation</li>
+            <li>Confirm reportability</li>
           </ul>
         </div>
-        <div class="nav-section">
-          <h3>Operations &amp; workflow</h3>
+        <div class="role-card">
+          <h4>Technical Lead</h4>
           <ul>
-            <li><a href="csir/curriculum.html#module-2">Module 2: Roles &amp; Communications</a></li>
-            <li><a href="csir/curriculum.html#module-4">Module 4: Workflow by Phase</a></li>
-            <li><a href="csir/curriculum.html#escalation">Escalation flow</a></li>
+            <li>Direct containment and recovery</li>
+            <li>Assess operational risk</li>
+            <li>Validate system restoration</li>
           </ul>
         </div>
-        <div class="nav-section">
-          <h3>Reference</h3>
+        <div class="role-card">
+          <h4>Communications Lead</h4>
           <ul>
-            <li><a href="csir/curriculum.html#module-3">Module 3: Terminology &amp; Severity</a></li>
-            <li><a href="csir/curriculum.html#module-5">Module 5: Reporting &amp; Documentation</a></li>
+            <li>Manage internal and external messaging</li>
+            <li>Coordinate PIO alignment</li>
+            <li>Prevent unauthorized statements</li>
+          </ul>
+        </div>
+        <div class="role-card">
+          <h4>ECS / SOC</h4>
+          <ul>
+            <li>Detect and triage incidents</li>
+            <li>Support evidence capture</li>
+            <li>Guide reporting timelines</li>
+          </ul>
+        </div>
+        <div class="role-card">
+          <h4>Compliance Lead</h4>
+          <ul>
+            <li>Prepare DOE-417 reporting</li>
+            <li>Audit-ready evidence guidance</li>
+            <li>Track regulatory obligations</li>
           </ul>
         </div>
       </div>
-      <div class="nav-actions">
-        <a class="button" href="csir/curriculum.html">Open full CSIR process</a>
-        <a class="button ghost" href="csir/curriculum.html#module-4">Go to workflow by phase</a>
-        <a class="red-phone" href="csir/curriculum.html#escalation"><span>Red Phone</span> Escalation &amp; incident bridge</a>
+    </section>
+
+    <section class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="pill-inline">Why this matters</div>
+          <h2 class="section-title">Operational impact and certification requirements</h2>
+        </div>
       </div>
+      <div class="grid two" style="display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+        <div class="callout">
+          <strong>Scenario:</strong> A substation HMI displays a ransomware note. The CSIR playbook ensures responders stabilize operations, preserve evidence, and notify leadership within the required one-hour reporting window.
+        </div>
+        <div class="callout">
+          <strong>Certification requirements:</strong> Complete the five training modules, pass the final knowledge check at 80% or higher, and confirm your name and role to generate your certificate. Guidance pages are optional.
+        </div>
+      </div>
+      <blockquote class="callout" style="margin-top:12px;">
+        "Consistent CSIR execution protects public safety, keeps power reliable, and strengthens trust across the region."
+        <div class="small" style="margin-top:6px;">- SCL Leadership</div>
+      </blockquote>
+    </section>
+
+    <section class="section-card faq">
+      <div class="section-header">
+        <div>
+          <div class="pill-inline">FAQ</div>
+          <h2 class="section-title">Common questions</h2>
+        </div>
+        <a class="button ghost" href="csir/curriculum.html#escalation">See escalation flow</a>
+      </div>
+      <details>
+        <summary>When should I escalate?</summary>
+        <p class="small">Escalate immediately if safety or reliability is at risk. If unsure, notify your supervisor and ECS for guidance.</p>
+      </details>
+      <details>
+        <summary>Do I need to finish all modules?</summary>
+        <p class="small">Yes. Certification requires completion of all five modules and a passing score on the final knowledge check.</p>
+      </details>
+      <details>
+        <summary>How is progress tracked?</summary>
+        <p class="small">Progress is saved in your browser and synced to the training system when you are signed in.</p>
+      </details>
+    </section>
+
+    <section class="section-card">
+      <div class="section-header">
+        <div>
+          <div class="pill-inline">Next steps</div>
+          <h2 class="section-title">Ready to begin?</h2>
+        </div>
+        <div class="footer-actions">
+          <a class="button" href="csir/learn.html">Open guided training</a>
+          <a class="button secondary" href="csir/my-learning.html">Resume certification</a>
+          <a class="button ghost" href="csir/curriculum.html">View the full CSIR process</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="print-guide" class="print-only">
+      <h1>CSIR Quick Reference</h1>
+      <p>Seattle City Light OT CSIR quick reference guide (print or save as PDF).</p>
+      <h2>Severity matrix</h2>
+      <ul>
+        <li>Low: suspicious activity, monitor and document</li>
+        <li>Medium: potential reliability impact, escalate to lead</li>
+        <li>High: service interruption likely, immediate escalation</li>
+        <li>Critical: loss of critical services, full response activation</li>
+      </ul>
+      <h2>Key contacts</h2>
+      <ul>
+        <li>Incident Commander: coordinate decisions and communications</li>
+        <li>Technical Lead: containment and recovery direction</li>
+        <li>ECS / SOC: detection and reporting</li>
+        <li>Compliance Lead: DOE-417 and audit readiness</li>
+      </ul>
+    </section>
+
+    <section id="print-pathway" class="print-only">
+      <h1>CSIR Learning Pathway</h1>
+      <ol>
+        <li>Module 1: CSIR Overview (6-8 min)</li>
+        <li>Module 2: Roles & Communications (6-8 min)</li>
+        <li>Module 3: Terminology & Severity (6-7 min)</li>
+        <li>Module 4: Workflow by Phase (7-9 min)</li>
+        <li>Module 5: Reporting & Documentation (7-9 min)</li>
+      </ol>
+      <p>Certification requires completing all modules and passing the final exam.</p>
     </section>
   </main>
+
+  <script type="module">
+    import { loadProgress } from './csir/js/storage.js';
+
+    const searchInput = document.getElementById('moduleSearch');
+    const moduleGrid = document.getElementById('moduleGrid');
+    const progressSummary = document.getElementById('progressSummary');
+    const progressNodes = moduleGrid.querySelectorAll('[data-progress]');
+    const moduleCards = moduleGrid.querySelectorAll('.module-card');
+
+    function updateProgress() {
+      const progress = loadProgress();
+      const completed = new Set(progress.completed || []);
+      let doneCount = 0;
+      progressNodes.forEach((node) => {
+        const card = node.closest('.module-card');
+        const moduleId = card?.getAttribute('data-module');
+        if (moduleId && completed.has(moduleId)) {
+          node.textContent = 'Completed';
+          node.classList.add('complete');
+          doneCount += 1;
+        } else {
+          node.textContent = progress.learnerName ? 'In progress' : 'Not started';
+          node.classList.remove('complete');
+        }
+      });
+      progressSummary.textContent = `You have completed ${doneCount} of 5 modules`;
+    }
+
+    function filterModules() {
+      const query = searchInput.value.trim().toLowerCase();
+      moduleCards.forEach((card) => {
+        const text = card.textContent.toLowerCase();
+        const keywords = card.getAttribute('data-keywords') || '';
+        const match = text.includes(query) || keywords.includes(query);
+        card.style.display = match ? 'grid' : 'none';
+      });
+    }
+
+    document.getElementById('downloadGuide').addEventListener('click', () => {
+      document.body.classList.remove('print-pathway');
+      document.body.classList.add('print-guide');
+      window.print();
+      document.body.classList.remove('print-guide');
+    });
+    document.getElementById('printPathway').addEventListener('click', () => {
+      document.body.classList.remove('print-guide');
+      document.body.classList.add('print-pathway');
+      window.print();
+      document.body.classList.remove('print-pathway');
+    });
+
+    searchInput.addEventListener('input', filterModules);
+    updateProgress();
+
+    const tabs = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.tab-panel');
+    tabs.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        tabs.forEach((t) => t.classList.remove('active'));
+        panels.forEach((p) => p.classList.remove('active'));
+        btn.classList.add('active');
+        const panel = document.getElementById(btn.dataset.tab);
+        if (panel) panel.classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>
-
-
-
