@@ -89,6 +89,7 @@ Notes:
 
 - `CORS_ORIGINS` is comma-separated.
 - Set `PORT` to the App Service assigned port if needed.
+- If using Easy Auth across origins, ensure your frontend sends cookies (`credentials: "include"`).
 
 ---
 
@@ -282,6 +283,36 @@ Recommended configuration:
 - **Unauthenticated requests**: HTTP 401.
 - **Token store**: enabled.
 - **Allowed token audiences**: your App Registration Application ID URI.
+
+#### Admin and Power Users Groups
+
+1. In Microsoft Entra ID, create two groups:
+   - `SCL-Training-Admins`
+   - `SCL-Training-PowerUsers`
+2. Add `michael.macri@idma3.com` to `SCL-Training-Admins`.
+3. Add other users as needed to either group.
+4. In the App Registration, enable **Group claims** in tokens:
+   - Token configuration -> Add groups claim -> "Security groups".
+5. Add the group object IDs to the API config:
+   - `ADMIN_GROUP_IDS=<admin-group-object-id>`
+   - `POWER_GROUP_IDS=<power-group-object-id>`
+
+#### Microsoft Graph (Admin management)
+
+The admin user management page uses Microsoft Graph application permissions.
+
+1. In the App Registration, add **Application permissions**:
+   - `Group.ReadWrite.All`
+   - `User.Read.All`
+2. Grant **Admin consent**.
+3. Set these App Service settings:
+   - `GRAPH_TENANT_ID`
+   - `GRAPH_CLIENT_ID`
+   - `GRAPH_CLIENT_SECRET`
+
+These credentials are used only by the API to manage group membership.
+
+Admin-only endpoints (like `/api/reports/*`) require membership in the admin group or inclusion in `ADMIN_EMAILS`.
 
 Frontend usage:
 

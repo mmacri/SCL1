@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
 import { getPool, sql } from './db.js';
+import { requireAuth, requireAdmin, requirePower } from './auth.js';
+import { listGroups, listGroupMembers, findUserByEmail, addUserToGroup } from './graph.js';
 
 dotenv.config();
 
@@ -14,9 +16,18 @@ app.use(cors({
   origin: (origin, cb) => {
     if (!origin || corsOrigins.length === 0) return cb(null, true);
     return corsOrigins.includes(origin) ? cb(null, true) : cb(new Error('Origin not allowed by CORS'));
-  }
+  },
+  credentials: true
 }));
 app.use(express.json());
+
+const easyAuthRequired = (process.env.EASY_AUTH_REQUIRED || '').toLowerCase() === 'true' || process.env.EASY_AUTH_REQUIRED === '1';
+
+app.use((req, res, next) => {
+  if (!easyAuthRequired) return next();
+  if (req.path === '/api/health' || req.path === '/api/courses') return next();
+  return requireAuth(req, res, next);
+});
 
 function requireFields(body, fields) {
   const missing = fields.filter((f) => !body[f]);
@@ -50,7 +61,7 @@ app.get('/api/courses', async (_req, res, next) => {
   }
 });
 
-app.get('/api/reports/monthly', async (req, res, next) => {
+app.get('/api/reports/monthly', requireAdmin, async (req, res, next) => {
   try {
     const year = Number(req.query.year) || new Date().getFullYear();
     const month = Number(req.query.month) || (new Date().getMonth() + 1);
@@ -86,6 +97,69 @@ app.get('/api/reports/monthly', async (req, res, next) => {
       count: result.recordset.length,
       records: result.recordset
     });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/api/reports/summary', requirePower, async (req, res, next) => {
+  try {
+    const year = Number(req.query.year) || new Date().getFullYear();
+    const month = Number(req.query.month) || (new Date().getMonth() + 1);
+    if (month < 1 || month > 12) {
+      return res.status(400).json({ error: 'month must be 1-12' });
+    }
+    const start = new Date(Date.UTC(year, month - 1, 1, 0, 0, 0));
+    const end = new Date(Date.UTC(year, month, 1, 0, 0, 0));
+    const pool = await getPool();
+    const result = await pool.request()
+      .input('startDate', sql.DateTime2, start)
+      .input('endDate', sql.DateTime2, end)
+      .query(`
+        SELECT
+          e.Status,
+          COUNT(*) AS Count
+        FROM Enrollments e
+        WHERE e.StartDate >= @startDate AND e.StartDate < @endDate
+        GROUP BY e.Status
+      `);
+    res.json({
+      year,
+      month,
+      totals: result.recordset
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/api/admin/groups', requireAdmin, async (_req, res, next) => {
+  try {
+    const adminGroupIds = (process.env.ADMIN_GROUP_IDS || '').split(',').map((v) => v.trim()).filter(Boolean);
+    const powerGroupIds = (process.env.POWER_GROUP_IDS || '').split(',').map((v) => v.trim()).filter(Boolean);
+    const groups = await listGroups([...new Set([...adminGroupIds, ...powerGroupIds])]);
+    res.json(groups);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/api/admin/groups/:id/members', requireAdmin, async (req, res, next) => {
+  try {
+    const members = await listGroupMembers(req.params.id);
+    res.json(members);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/api/admin/groups/:id/members', requireAdmin, async (req, res, next) => {
+  try {
+    requireFields(req.body, ['email']);
+    const user = await findUserByEmail(req.body.email);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    await addUserToGroup(req.params.id, user.id);
+    res.status(201).json({ added: true, userId: user.id });
   } catch (err) {
     next(err);
   }

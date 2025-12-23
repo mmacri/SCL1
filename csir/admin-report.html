@@ -150,7 +150,7 @@
         downloadBtn.disabled = true;
         try {
           const url = `${apiRoot}/api/reports/monthly?year=${year}&month=${month}`;
-          const res = await fetch(url);
+          const res = await fetch(url, { credentials: 'include' });
           if (!res.ok) throw new Error('Failed to load report');
           const data = await res.json();
           lastRecords = data.records || [];
@@ -159,7 +159,7 @@
           reportCount.textContent = `${data.count} records`;
           downloadBtn.disabled = lastRecords.length === 0;
         } catch (err) {
-          reportStatus.textContent = 'Report load failed.';
+          reportStatus.textContent = 'Report load failed. Access may be restricted.';
           reportCount.textContent = '';
           console.warn(err);
         }

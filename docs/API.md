@@ -16,7 +16,7 @@ For production, add one of:
 - API key header
 - Azure AD App Registration + JWT validation
 
-This repo ships without auth for simplicity.
+This repo ships without auth for simplicity. If you enable Easy Auth, send cookies by setting `credentials: "include"` in `fetch`.
 
 ## Error Format
 
@@ -74,6 +74,55 @@ Response:
     }
   ]
 }
+```
+
+### GET /api/reports/summary
+
+Query params:
+
+- `year` (YYYY)
+- `month` (1-12)
+
+Response:
+```json
+{
+  "year": 2025,
+  "month": 1,
+  "totals": [
+    { "Status": "in_progress", "Count": 12 },
+    { "Status": "completed", "Count": 3 }
+  ]
+}
+```
+
+### GET /api/admin/groups
+
+Response:
+```json
+[
+  { "id": "group-id", "displayName": "SCL-Training-Admins" }
+]
+```
+
+### GET /api/admin/groups/:id/members
+
+Response:
+```json
+[
+  { "id": "user-id", "displayName": "Jane Doe", "mail": "jane.doe@example.com" }
+]
+```
+
+### POST /api/admin/groups/:id/members
+
+Request:
+```json
+{ "email": "user@company.com" }
+```
+
+Response:
+```json
+{ "added": true, "userId": "user-id" }
 ```
 
 ### POST /api/learners

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Users - CSIR</title>
+  <meta name="scl-api-base" content="">
+  <link rel="stylesheet" href="css/theme.css">
+  <script src="js/api-config.js"></script>
+  <style>
+    .admin-grid { display:grid; gap:16px; }
+    .group-card { border:1px solid var(--border); border-radius:12px; padding:16px; background:#fff; }
+    .group-card h3 { margin:0 0 6px; }
+    .group-meta { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+    .member-list { margin:0; padding-left:18px; }
+    .member-list li { margin-bottom:6px; }
+    .add-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .add-row input { min-width: 240px; }
+  </style>
+</head>
+<body class="page">
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand"><img src="assets/logo.svg" alt="SCL">Admin Users</div>
+      <div class="footer-actions">
+        <a class="button ghost" href="index.html">CSIR home</a>
+        <a class="button ghost" href="../index.html">Training home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel card admin-grid">
+      <div>
+        <div class="pill">Groups</div>
+        <h2 class="section-title">Admin and power users</h2>
+        <p class="section-sub">List members and add new users by email. Requires admin access.</p>
+      </div>
+
+      <div id="groupContainer"></div>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      const apiBase = (window.SCL_API_BASE || localStorage.getItem('scl_api_base') || '').replace(/\/$/, '');
+      const groupContainer = document.getElementById('groupContainer');
+
+      async function apiFetch(path, options = {}) {
+        const res = await fetch(`${apiBase}${path}`, {
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          ...options
+        });
+        if (!res.ok) throw new Error('Request failed');
+        return res.json();
+      }
+
+      function renderGroup(group, members) {
+        const card = document.createElement('div');
+        card.className = 'group-card';
+        const list = members.map((m) => `<li>${m.displayName || m.userPrincipalName || m.mail || ''}</li>`).join('');
+        card.innerHTML = `
+          <h3>${group.displayName}</h3>
+          <div class="group-meta">${group.id}</div>
+          <ul class="member-list">${list || '<li>No members found.</li>'}</ul>
+          <div class="add-row">
+            <input type="email" placeholder="user@company.com" data-group="${group.id}">
+            <button class="button" data-action="add" data-group="${group.id}">Add user</button>
+          </div>
+        `;
+        return card;
+      }
+
+      async function loadGroups() {
+        groupContainer.innerHTML = '<div class="alert">Loading groups...</div>';
+        try {
+          const groups = await apiFetch('/api/admin/groups');
+          groupContainer.innerHTML = '';
+          for (const group of groups) {
+            const members = await apiFetch(`/api/admin/groups/${group.id}/members`);
+            groupContainer.appendChild(renderGroup(group, members));
+          }
+        } catch (err) {
+          groupContainer.innerHTML = '<div class="alert">Unable to load groups. Access may be restricted.</div>';
+          console.warn(err);
+        }
+      }
+
+      groupContainer.addEventListener('click', async (e) => {
+        const btn = e.target.closest('button[data-action="add"]');
+        if (!btn) return;
+        const groupId = btn.dataset.group;
+        const input = groupContainer.querySelector(`input[data-group="${groupId}"]`);
+        if (!input || !input.value.trim()) return;
+        btn.disabled = true;
+        try {
+          await apiFetch(`/api/admin/groups/${groupId}/members`, {
+            method: 'POST',
+            body: JSON.stringify({ email: input.value.trim() })
+          });
+          await loadGroups();
+        } catch (err) {
+          alert('Failed to add user.');
+          console.warn(err);
+        } finally {
+          btn.disabled = false;
+        }
+      });
+
+      loadGroups();
+    })();
+  </script>
+</body>
+</html>

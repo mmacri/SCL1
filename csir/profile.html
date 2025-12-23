@@ -57,7 +57,13 @@
     }
     updateButton();
     input.addEventListener('input', updateButton);
+    input.addEventListener('change', updateButton);
+    input.addEventListener('blur', updateButton);
     emailInput.addEventListener('input', updateButton);
+    emailInput.addEventListener('change', updateButton);
+    emailInput.addEventListener('blur', updateButton);
+    emailInput.addEventListener('keyup', updateButton);
+    setTimeout(updateButton, 300);
 
     async function resolveCourseMeta() {
       const res = await fetch('contentpacks/scl-csir/pack.json');
