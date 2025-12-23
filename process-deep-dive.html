@@ -29,6 +29,13 @@
     .nav-card { display:grid; gap:12px; }
     .nav-actions { display:flex; flex-wrap:wrap; gap:10px; }
     .nav-actions .button { white-space:nowrap; }
+    .nav-grid { display:grid; gap:14px; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); }
+    .nav-section { border:1px solid #e0e7f4; border-radius:12px; padding:14px; background:#fbfcff; }
+    .nav-section h3 { margin:0 0 8px; font-size:14px; color:#1c2b4a; }
+    .nav-section ul { margin:0; padding-left:18px; }
+    .nav-section li { margin-bottom:6px; }
+    .red-phone { display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:12px; background:#ffe9e9; border:1px solid #f2b1b1; color:#7a1e1e; font-weight:600; text-decoration:none; }
+    .red-phone span { font-weight:700; letter-spacing:0.02em; }
     @media (max-width: 720px) {
       .grid.two { grid-template-columns: 1fr; }
       .process-map { grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); }
@@ -61,25 +68,35 @@
     <section class="panel card nav-card" id="nav">
       <div class="pill inline">Navigate</div>
       <h2>Jump to the CSIR process content</h2>
-      <p class="section-sub">Use the links below to open each section of the CSIR process and training materials.</p>
-      <div class="jump-links">
-        <a href="csir/curriculum.html#home">CSIR overview</a>
-        <a href="csir/curriculum.html#module-1">Module 1: CSIR Overview</a>
-        <a href="csir/curriculum.html#module-2">Module 2: Roles &amp; Communications</a>
-        <a href="csir/curriculum.html#module-3">Module 3: Terminology &amp; Severity</a>
-        <a href="csir/curriculum.html#module-4">Module 4: Workflow by Phase</a>
-        <a href="csir/curriculum.html#module-5">Module 5: Reporting &amp; Documentation</a>
-        <a href="csir/curriculum.html#module-6">Module 6: OT Scenarios &amp; Drills</a>
-        <a href="csir/curriculum.html#module-7">Module 7: Certification Exam</a>
-        <a href="csir/curriculum.html#escalation">Escalation flow</a>
+      <p class="section-sub">Use these sections to reach the right part of the CSIR process quickly.</p>
+      <div class="nav-grid">
+        <div class="nav-section">
+          <h3>Start here</h3>
+          <ul>
+            <li><a href="csir/curriculum.html#home">CSIR overview</a></li>
+            <li><a href="csir/curriculum.html#module-1">Module 1: CSIR Overview</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <h3>Operations &amp; workflow</h3>
+          <ul>
+            <li><a href="csir/curriculum.html#module-2">Module 2: Roles &amp; Communications</a></li>
+            <li><a href="csir/curriculum.html#module-4">Module 4: Workflow by Phase</a></li>
+            <li><a href="csir/curriculum.html#escalation">Escalation flow</a></li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <h3>Reference</h3>
+          <ul>
+            <li><a href="csir/curriculum.html#module-3">Module 3: Terminology &amp; Severity</a></li>
+            <li><a href="csir/curriculum.html#module-5">Module 5: Reporting &amp; Documentation</a></li>
+          </ul>
+        </div>
       </div>
       <div class="nav-actions">
         <a class="button" href="csir/curriculum.html">Open full CSIR process</a>
         <a class="button ghost" href="csir/curriculum.html#module-4">Go to workflow by phase</a>
-      </div>
-      <div class="legend">
-        <span>Fast path: map -> guidance.</span>
-        <span>Deep path: curriculum modules.</span>
+        <a class="red-phone" href="csir/curriculum.html#escalation"><span>Red Phone</span> Escalation &amp; incident bridge</a>
       </div>
     </section>
   </main>
