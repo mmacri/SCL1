@@ -35,6 +35,20 @@ function splitEnv(name) {
   return (process.env[name] || '').split(',').map((v) => v.trim()).filter(Boolean);
 }
 
+export function isAdminUser(user) {
+  const adminEmails = splitEnv('ADMIN_EMAILS');
+  const adminGroups = splitEnv('ADMIN_GROUP_IDS');
+  const isEmailAdmin = user?.email && adminEmails.includes(user.email);
+  const isGroupAdmin = user?.groups?.some((g) => adminGroups.includes(g));
+  return Boolean(isEmailAdmin || isGroupAdmin);
+}
+
+export function isPowerUser(user) {
+  const powerGroups = splitEnv('POWER_GROUP_IDS');
+  const isGroupPower = user?.groups?.some((g) => powerGroups.includes(g));
+  return Boolean(isGroupPower);
+}
+
 export function requireAuth(req, res, next) {
   const user = getUserFromRequest(req);
   if (!user) return res.status(401).json({ error: 'Authentication required' });
@@ -44,11 +58,7 @@ export function requireAuth(req, res, next) {
 
 export function requireAdmin(req, res, next) {
   const user = getUserFromRequest(req);
-  const adminEmails = splitEnv('ADMIN_EMAILS');
-  const adminGroups = splitEnv('ADMIN_GROUP_IDS');
-  const isEmailAdmin = user?.email && adminEmails.includes(user.email);
-  const isGroupAdmin = user?.groups?.some((g) => adminGroups.includes(g));
-  if (!user || (!isEmailAdmin && !isGroupAdmin)) {
+  if (!user || !isAdminUser(user)) {
     return res.status(403).json({ error: 'Admin access required' });
   }
   req.user = user;
@@ -57,13 +67,7 @@ export function requireAdmin(req, res, next) {
 
 export function requirePower(req, res, next) {
   const user = getUserFromRequest(req);
-  const adminEmails = splitEnv('ADMIN_EMAILS');
-  const adminGroups = splitEnv('ADMIN_GROUP_IDS');
-  const powerGroups = splitEnv('POWER_GROUP_IDS');
-  const isEmailAdmin = user?.email && adminEmails.includes(user.email);
-  const isGroupAdmin = user?.groups?.some((g) => adminGroups.includes(g));
-  const isGroupPower = user?.groups?.some((g) => powerGroups.includes(g));
-  if (!user || (!isEmailAdmin && !isGroupAdmin && !isGroupPower)) {
+  if (!user || (!isAdminUser(user) && !isPowerUser(user))) {
     return res.status(403).json({ error: 'Power user access required' });
   }
   req.user = user;

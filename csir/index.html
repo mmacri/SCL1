@@ -19,8 +19,8 @@
         <a class="button" href="learn.html?start=1">Resume Training</a>
         <a class="button secondary" href="curriculum.html">Course Map / Curriculum</a>
         <a class="button secondary" href="my-learning.html">My Learning</a>
-        <a class="button ghost" href="admin-report.html">Admin report</a>
-        <a class="button ghost" href="admin-users.html">Admin users</a>
+        <a class="button ghost" id="reportsLink" href="admin-report.html" style="display:none;">Reports</a>
+        <a class="button ghost" id="groupsLink" href="admin-users.html" style="display:none;">Groups</a>
         <a class="button ghost" href="resources.html">Help / Audit Etiquette</a>
       </div>
     </div>
@@ -77,5 +77,22 @@
       </div>
     </section>
   </main>
+  <script>
+    (function() {
+      const reportsLink = document.getElementById('reportsLink');
+      const groupsLink = document.getElementById('groupsLink');
+      if (!reportsLink || !groupsLink) return;
+      const apiBase = (window.SCL_API_BASE || localStorage.getItem('scl_api_base') || '').replace(/\/$/, '');
+      const apiUrl = apiBase ? `${apiBase}/api/me` : '/api/me';
+      fetch(apiUrl, { credentials: 'include' })
+        .then((res) => res.ok ? res.json() : null)
+        .then((data) => {
+          if (!data) return;
+          if (data.isAdmin || data.isPower) reportsLink.style.display = 'inline-flex';
+          if (data.isAdmin) groupsLink.style.display = 'inline-flex';
+        })
+        .catch(() => {});
+    })();
+  </script>
 </body>
 </html>

@@ -33,6 +33,21 @@ Response:
 { "ok": true }
 ```
 
+### GET /api/me
+
+Requires Easy Auth. Returns the current user and access flags.
+
+Response:
+```json
+{
+  "email": "michael.macri@idma3.com",
+  "name": "Michael Macri",
+  "groups": ["<group-id>"],
+  "isAdmin": true,
+  "isPower": false
+}
+```
+
 ### GET /api/courses
 
 Response:

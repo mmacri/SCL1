@@ -313,6 +313,7 @@ The admin user management page uses Microsoft Graph application permissions.
 These credentials are used only by the API to manage group membership.
 
 Admin-only endpoints (like `/api/reports/*`) require membership in the admin group or inclusion in `ADMIN_EMAILS`.
+Power users can access `/api/reports/summary` but not `/api/reports/monthly`.
 
 Frontend usage:
 

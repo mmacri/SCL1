@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
 import { getPool, sql } from './db.js';
-import { requireAuth, requireAdmin, requirePower } from './auth.js';
+import { requireAuth, requireAdmin, requirePower, isAdminUser, isPowerUser } from './auth.js';
 import { listGroups, listGroupMembers, findUserByEmail, addUserToGroup } from './graph.js';
 
 dotenv.config();
@@ -44,6 +44,17 @@ function generateCertCode(seed) {
 
 app.get('/api/health', (_req, res) => {
   res.json({ ok: true });
+});
+
+app.get('/api/me', requireAuth, (req, res) => {
+  const user = req.user;
+  res.json({
+    email: user.email,
+    name: user.name,
+    groups: user.groups || [],
+    isAdmin: isAdminUser(user),
+    isPower: isPowerUser(user)
+  });
 });
 
 app.get('/api/courses', async (_req, res, next) => {
