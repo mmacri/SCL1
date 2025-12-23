@@ -57,7 +57,7 @@
     }
     .flow-diagram {
       display: grid;
-      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 8px;
       align-items: center;
     }
@@ -237,8 +237,16 @@
     }
     .quick-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+    .quick-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 14px;
+      background: #fff;
+      display: grid;
+      gap: 10px;
     }
     .severity-table {
       width: 100%;
@@ -279,12 +287,31 @@
     }
     .decision-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 10px;
-      align-items: center;
+      gap: 8px;
     }
     .decision-row .flow-node {
       background: #fff;
+    }
+    .decision-branch {
+      display: grid;
+      grid-template-columns: 1fr 80px 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+    .decision-label {
+      text-align: center;
+      font-weight: 800;
+      color: #0b1f44;
+      background: #eef2ff;
+      border: 1px solid #cbd5f5;
+      border-radius: 999px;
+      padding: 4px 6px;
+      font-size: 0.8rem;
+    }
+    .decision-note {
+      font-size: 0.85rem;
+      color: #475569;
+      margin: 0;
     }
     .flow-node {
       padding: 10px;
@@ -385,9 +412,11 @@
     }
     .role-card h4 { margin: 0 0 6px; color: var(--scl-navy); }
     .print-only { display: none; }
+    @media (max-width: 1024px) {
+      .flow-step:not(:last-child)::after { display: none; }
+    }
     @media (max-width: 760px) {
       .flow-diagram { grid-template-columns: 1fr; }
-      .flow-step:not(:last-child)::after { display: none; }
     }
     @media print {
       body * { display: none !important; }
@@ -633,7 +662,7 @@
         </div>
       </div>
       <div class="quick-grid">
-        <div>
+        <div class="quick-card">
           <h3>Severity level matrix</h3>
           <table class="severity-table" aria-label="Severity level matrix">
             <thead>
@@ -647,23 +676,31 @@
             </tbody>
           </table>
         </div>
-        <div>
+        <div class="quick-card">
           <h3>Escalation decision tree</h3>
           <div class="decision-tree">
-            <div class="flow-node">See unusual OT behavior?</div>
-            <div class="decision-row">
-              <div class="flow-node">Is safety or reliability at risk?</div>
-              <div class="flow-label">Yes</div>
-              <div class="flow-node">Call Incident Commander + ECS</div>
+            <div class="flow-node">
+              Observe an anomaly on OT systems?
+              <p class="decision-note">Examples: alarms, unexpected reboots, unauthorized access attempts.</p>
             </div>
-            <div class="decision-row">
-              <div class="flow-node">Are systems impacted or evidence unclear?</div>
-              <div class="flow-label">No</div>
-              <div class="flow-node">Document and notify supervisor</div>
+            <div class="decision-branch">
+              <div class="flow-node">Is safety, reliability, or critical service at risk?</div>
+              <div class="decision-label">Yes</div>
+              <div class="flow-node">Escalate immediately: Incident Commander + ECS</div>
+            </div>
+            <div class="decision-branch">
+              <div class="flow-node">Is the impact unclear or evidence limited?</div>
+              <div class="decision-label">Yes</div>
+              <div class="flow-node">Notify supervisor + ECS for triage</div>
+            </div>
+            <div class="decision-branch">
+              <div class="flow-node">No impact and clearly benign?</div>
+              <div class="decision-label">No</div>
+              <div class="flow-node">Document and monitor; notify supervisor</div>
             </div>
           </div>
         </div>
-        <div>
+        <div class="quick-card">
           <h3>Key contacts</h3>
           <div class="callout">
             <strong>Incident Commander</strong>: coordinate decisions and comms<br>
