@@ -126,6 +126,25 @@
       align-items: center;
       flex-wrap: wrap;
     }
+    .quick-nav .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .quick-nav a {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: var(--scl-navy);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      border: 1px solid #e2e8f0;
+    }
+    .quick-nav a:hover {
+      background: #e2e8f0;
+    }
     .pill-inline {
       display: inline-flex;
       align-items: center;
@@ -445,7 +464,7 @@
   </header>
 
   <main class="layout-shell">
-    <section class="hero">
+    <section class="hero" id="overview">
       <div class="hero-grid">
         <div>
           <div class="pill-inline" style="background:rgba(255,255,255,0.15); color:#fff;">Seattle City Light OT CSIR</div>
@@ -519,7 +538,23 @@
       </div>
     </section>
 
-    <section class="section-card">
+    <section class="section-card quick-nav" id="quick-nav">
+      <div>
+        <div class="pill-inline">Quick navigation</div>
+        <h2 class="section-title">Jump to a section</h2>
+      </div>
+      <div class="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#process-overview">Process overview</a>
+        <a href="#modules">Modules</a>
+        <a href="#quick-reference">Decision aids</a>
+        <a href="#roles">Roles</a>
+        <a href="#why-matters">Why this matters</a>
+        <a href="#next-steps">Next steps</a>
+      </div>
+    </section>
+
+    <section class="section-card" id="process-overview">
       <div class="section-header">
         <div>
           <div class="pill-inline">Process overview</div>
@@ -564,7 +599,7 @@
       </div>
     </section>
 
-    <section class="section-card">
+    <section class="section-card" id="modules">
       <div class="module-toolbar">
         <div>
           <div class="pill-inline">Modules</div>
@@ -656,7 +691,7 @@
       </div>
     </section>
 
-    <section class="section-card">
+    <section class="section-card" id="quick-reference">
       <div class="section-header">
         <div>
           <div class="pill-inline">Quick reference</div>
@@ -758,7 +793,7 @@
       </div>
     </section>
 
-    <section class="section-card">
+    <section class="section-card" id="roles">
       <div class="section-header">
         <div>
           <div class="pill-inline">Role responsibilities</div>
@@ -810,7 +845,7 @@
       <p class="small" style="margin-top:10px;">Each role’s responsibilities are practiced in the corresponding CSIR training modules; see the modules above for scenarios and knowledge checks.</p>
     </section>
 
-    <section class="section-card">
+    <section class="section-card" id="why-matters">
       <div class="section-header">
         <div>
           <div class="pill-inline">Why this matters</div>
@@ -831,7 +866,7 @@
       </blockquote>
     </section>
 
-    <section class="section-card">
+    <section class="section-card" id="next-steps">
       <div class="section-header">
         <div>
           <div class="pill-inline">Next steps</div>
