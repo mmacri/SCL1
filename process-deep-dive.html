@@ -570,15 +570,13 @@
           <h2 class="section-title">CSIR Overview and process modules</h2>
           <p class="section-sub">Search by topic, see difficulty, and jump into the right module.</p>
         </div>
-        <div class="progress-pill" id="progressSummary">You have completed 0 of 5 modules</div>
+        
       </div>
       <div class="module-toolbar" style="margin-top:10px;">
         <input id="moduleSearch" class="search-input" type="search" placeholder="Search topics (e.g., escalation, severity, evidence)">
-        <a class="button ghost" href="csir/learn.html">Test your knowledge</a>
       </div>
       <div class="module-grid" id="moduleGrid">
         <article class="module-card" data-module="module-1" data-keywords="overview basics reporting contacts">
-          <span class="difficulty">Foundational</span>
           <div class="module-preview">CSIR 101</div>
           <h3>Module 1: CSIR Overview</h3>
           <p>Understand what counts as an OT cyber incident and the first actions expected from every role.</p>
@@ -592,7 +590,6 @@
           <a class="button" href="csir/curriculum.html#module-1">Open module</a>
         </article>
         <article class="module-card" data-module="module-2" data-keywords="roles communications leadership notifications">
-          <span class="difficulty">Foundational</span>
           <div class="module-preview">Roles + Comms</div>
           <h3>Module 2: Roles & Communications</h3>
           <p>See how incident leadership, technical leads, and responders coordinate decisions and messaging.</p>
@@ -601,12 +598,11 @@
             <li>Notification matrix</li>
             <li>Communication rules</li>
           </ul>
-          <div class="module-meta"><span>Difficulty: Foundational</span></div>
+          <div class="module-meta"><span>Role: All staff</span></div>
           <div class="module-progress" data-progress>Not started</div>
           <a class="button" href="csir/curriculum.html#module-2">Open module</a>
         </article>
         <article class="module-card" data-module="module-3" data-keywords="terminology severity classification definitions">
-          <span class="difficulty">Intermediate</span>
           <div class="module-preview">Severity</div>
           <h3>Module 3: Terminology & Severity</h3>
           <p>Classify events, incidents, and attempts to compromise with clear severity tiers.</p>
@@ -615,12 +611,11 @@
             <li>Severity ladder</li>
             <li>Examples and thresholds</li>
           </ul>
-          <div class="module-meta"><span>Difficulty: Intermediate</span></div>
+          <div class="module-meta"><span>Focus: Severity</span></div>
           <div class="module-progress" data-progress>Not started</div>
           <a class="button" href="csir/curriculum.html#module-3">Open module</a>
         </article>
         <article class="module-card" data-module="module-4" data-keywords="workflow phases containment recovery response">
-          <span class="difficulty">Intermediate</span>
           <div class="module-preview">Workflow</div>
           <h3>Module 4: Workflow by Phase</h3>
           <p>Walk the CSIR phases and understand who acts when, with what approvals.</p>
@@ -629,12 +624,11 @@
             <li>Containment choices</li>
             <li>Decision checkpoints</li>
           </ul>
-          <div class="module-meta"><span>Difficulty: Intermediate</span></div>
+          <div class="module-meta"><span>Focus: Workflow</span></div>
           <div class="module-progress" data-progress>Not started</div>
           <a class="button" href="csir/curriculum.html#module-4">Open module</a>
         </article>
         <article class="module-card" data-module="module-5" data-keywords="reporting documentation evidence audit">
-          <span class="difficulty">Advanced</span>
           <div class="module-preview">Reporting</div>
           <h3>Module 5: Reporting & Documentation</h3>
           <p>Meet regulatory reporting obligations and capture audit-ready evidence.</p>
@@ -643,7 +637,7 @@
             <li>Evidence handling</li>
             <li>Audit etiquette</li>
           </ul>
-          <div class="module-meta"><span>Difficulty: Advanced</span></div>
+          <div class="module-meta"><span>Focus: Reporting</span></div>
           <div class="module-progress" data-progress>Not started</div>
           <a class="button" href="csir/curriculum.html#module-5">Open module</a>
         </article>
@@ -870,27 +864,23 @@
 
     const searchInput = document.getElementById('moduleSearch');
     const moduleGrid = document.getElementById('moduleGrid');
-    const progressSummary = document.getElementById('progressSummary');
-    const progressNodes = moduleGrid.querySelectorAll('[data-progress]');
     const moduleCards = moduleGrid.querySelectorAll('.module-card');
 
     function updateProgress() {
       const progress = loadProgress();
       const completed = new Set(progress.completed || []);
-      let doneCount = 0;
+      const progressNodes = moduleGrid.querySelectorAll('[data-progress]');
       progressNodes.forEach((node) => {
         const card = node.closest('.module-card');
         const moduleId = card?.getAttribute('data-module');
         if (moduleId && completed.has(moduleId)) {
           node.textContent = 'Completed';
           node.classList.add('complete');
-          doneCount += 1;
         } else {
           node.textContent = progress.learnerName ? 'In progress' : 'Not started';
           node.classList.remove('complete');
         }
       });
-      progressSummary.textContent = `You have completed ${doneCount} of 5 modules`;
     }
 
     function filterModules() {
