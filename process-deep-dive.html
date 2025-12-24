@@ -159,6 +159,23 @@
       align-items: center;
       justify-content: space-between;
     }
+    .module-legend {
+      display: grid;
+      gap: 4px;
+      margin: 6px 0 10px;
+    }
+    .module-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .text-link {
+      font-weight: 700;
+      color: var(--scl-blue);
+      text-decoration: none;
+    }
+    .text-link:hover { text-decoration: underline; }
     .search-input {
       flex: 1 1 260px;
       padding: 10px 12px;
@@ -247,6 +264,11 @@
       background: #fff;
       display: grid;
       gap: 10px;
+    }
+    .quick-actions {
+      display: grid;
+      gap: 6px;
+      margin-top: 8px;
     }
     .severity-table {
       width: 100%;
@@ -449,7 +471,7 @@
         <div>
           <div class="pill-inline" style="background:rgba(255,255,255,0.15); color:#fff;">Seattle City Light OT CSIR</div>
           <h1>CSIR Process Deep Dive</h1>
-          <p class="section-sub">Cybersecurity Incident Response (CSIR) for OT keeps power systems safe and reliable by defining how we detect, contain, and recover from cyber events across field, operations, engineering, and leadership teams.</p>
+          <p class="section-sub">This page is a process reference and launchpad for the OT CSIR training modules, showing how the five phases, roles, and severity tools work together during real incidents.</p>
         </div>
         <div class="hero-card">
           <div class="flow-diagram" aria-label="CSIR five phase flow">
@@ -527,11 +549,11 @@
         
       </div>
       <div class="tabs" role="tablist" aria-label="Incident phase tabs">
-        <button class="tab-btn active" data-tab="tab-before" role="tab" aria-selected="true">Before (Preparation)</button>
-        <button class="tab-btn" data-tab="tab-during" role="tab" aria-selected="false">During (Active Response)</button>
-        <button class="tab-btn" data-tab="tab-after" role="tab" aria-selected="false">After (Post-Incident)</button>
+        <button id="tab-before-btn" class="tab-btn active" data-tab="tab-before" role="tab" aria-selected="true" aria-controls="tab-before">Before (Preparation)</button>
+        <button id="tab-during-btn" class="tab-btn" data-tab="tab-during" role="tab" aria-selected="false" aria-controls="tab-during">During (Active Response)</button>
+        <button id="tab-after-btn" class="tab-btn" data-tab="tab-after" role="tab" aria-selected="false" aria-controls="tab-after">After (Post-Incident)</button>
       </div>
-      <div id="tab-before" class="tab-panel active" role="tabpanel">
+      <div id="tab-before" class="tab-panel active" role="tabpanel" aria-labelledby="tab-before-btn" tabindex="0">
         <h3>Preparation (before incidents)</h3>
         <ul>
           <li>Verify monitoring, backups, and contact lists</li>
@@ -541,7 +563,7 @@
         </ul>
         
       </div>
-      <div id="tab-during" class="tab-panel" role="tabpanel">
+      <div id="tab-during" class="tab-panel" role="tabpanel" aria-labelledby="tab-during-btn" tabindex="-1">
         <h3>Active Response (during incidents)</h3>
         <ul>
           <li>Detect and classify severity quickly</li>
@@ -551,7 +573,7 @@
         </ul>
         
       </div>
-      <div id="tab-after" class="tab-panel" role="tabpanel">
+      <div id="tab-after" class="tab-panel" role="tabpanel" aria-labelledby="tab-after-btn" tabindex="-1">
         <h3>Post-Incident (after resolution)</h3>
         <ul>
           <li>Recover operations and validate systems</li>
@@ -568,7 +590,13 @@
         <div>
           <div class="pill-inline">Modules</div>
           <h2 class="section-title">CSIR Overview and process modules</h2>
-          <p class="section-sub">Search by topic, see difficulty, and jump into the right module.</p>
+          <p class="section-sub">Search by topic and jump into the right module.</p>
+          <p class="small">Use this section to start or resume your CSIR training. Module completion here feeds into your certification status.</p>
+          <div class="module-legend small">
+            <div>Not started: Training for this module has not been opened yet.</div>
+            <div>In progress: Training started but all checks not yet passed.</div>
+            <div>Completed: All required steps and checks for this module are done and count toward certification.</div>
+          </div>
         </div>
         
       </div>
@@ -587,7 +615,10 @@
           </ul>
           <div class="module-meta"><span>Role: All staff</span></div>
           <div class="module-progress" data-progress>Not started</div>
-          <a class="button" href="csir/curriculum.html#module-1">Open module</a>
+          <div class="module-links">
+            <a class="button" href="csir/learn.html?module=1">Start training</a>
+            <a class="text-link" href="csir/curriculum.html#module-1">View module outline</a>
+          </div>
         </article>
         <article class="module-card" data-module="module-2" data-keywords="roles communications leadership notifications">
           <div class="module-preview">Roles + Comms</div>
@@ -600,7 +631,10 @@
           </ul>
           <div class="module-meta"><span>Role: All staff</span></div>
           <div class="module-progress" data-progress>Not started</div>
-          <a class="button" href="csir/curriculum.html#module-2">Open module</a>
+          <div class="module-links">
+            <a class="button" href="csir/learn.html?module=2">Start training</a>
+            <a class="text-link" href="csir/curriculum.html#module-2">View module outline</a>
+          </div>
         </article>
         <article class="module-card" data-module="module-3" data-keywords="terminology severity classification definitions">
           <div class="module-preview">Severity</div>
@@ -613,7 +647,10 @@
           </ul>
           <div class="module-meta"><span>Focus: Severity</span></div>
           <div class="module-progress" data-progress>Not started</div>
-          <a class="button" href="csir/curriculum.html#module-3">Open module</a>
+          <div class="module-links">
+            <a class="button" href="csir/learn.html?module=3">Start training</a>
+            <a class="text-link" href="csir/curriculum.html#module-3">View module outline</a>
+          </div>
         </article>
         <article class="module-card" data-module="module-4" data-keywords="workflow phases containment recovery response">
           <div class="module-preview">Workflow</div>
@@ -626,7 +663,10 @@
           </ul>
           <div class="module-meta"><span>Focus: Workflow</span></div>
           <div class="module-progress" data-progress>Not started</div>
-          <a class="button" href="csir/curriculum.html#module-4">Open module</a>
+          <div class="module-links">
+            <a class="button" href="csir/learn.html?module=4">Start training</a>
+            <a class="text-link" href="csir/curriculum.html#module-4">View module outline</a>
+          </div>
         </article>
         <article class="module-card" data-module="module-5" data-keywords="reporting documentation evidence audit">
           <div class="module-preview">Reporting</div>
@@ -639,7 +679,10 @@
           </ul>
           <div class="module-meta"><span>Focus: Reporting</span></div>
           <div class="module-progress" data-progress>Not started</div>
-          <a class="button" href="csir/curriculum.html#module-5">Open module</a>
+          <div class="module-links">
+            <a class="button" href="csir/learn.html?module=5">Start training</a>
+            <a class="text-link" href="csir/curriculum.html#module-5">View module outline</a>
+          </div>
         </article>
       </div>
     </section>
@@ -651,13 +694,17 @@
           <h2 class="section-title">Decision aids and escalation tools</h2>
         </div>
         <div class="footer-actions">
-          <button class="button secondary" id="downloadGuide">Download PDF reference</button>
-          <button class="button ghost" id="printPathway">Printable learning pathway</button>
+          <button class="button secondary" id="downloadGuide">Print quick reference PDF (severity + contacts)</button>
+          <button class="button ghost" id="printPathway">Print learning pathway (modules 1-5)</button>
         </div>
+      </div>
+      <div class="quick-actions small">
+        These printouts are summaries; for full training content and certification, use the modules above.
       </div>
       <div class="quick-grid">
         <div class="quick-card">
           <h3>Severity level matrix</h3>
+          <p class="small">These severity levels align to the CSIR plan and drive when to escalate, involve compliance, and trigger DOE-417 / NERC-CIP reporting decisions.</p>
           <table class="severity-table" aria-label="Severity level matrix">
             <thead>
               <tr><th>Level</th><th>Impact</th><th>Response</th><th>Example</th></tr>
@@ -665,8 +712,8 @@
             <tbody>
               <tr><td class="sev-low">Low</td><td>Minimal impact, suspicious activity</td><td>Monitor, document, notify</td><td>Blocked scan on OT firewall</td></tr>
               <tr><td class="sev-med">Medium</td><td>Potential reliability risk</td><td>Escalate to lead, contain</td><td>Malware alert on engineering host</td></tr>
-              <tr><td class="sev-high">High</td><td>Service interruption likely</td><td>Immediate leadership escalation</td><td>Loss of monitoring at substations</td></tr>
-              <tr><td class="sev-crit">Critical</td><td>Loss of critical services</td><td>Activate full response</td><td>Control center cannot dispatch</td></tr>
+              <tr><td class="sev-high">High</td><td>Service interruption likely</td><td>Immediate leadership escalation</td><td>Loss of monitoring at substations; may require incident declaration and rapid leadership escalation.</td></tr>
+              <tr><td class="sev-crit">Critical</td><td>Loss of critical services</td><td>Activate full response</td><td>Control center cannot dispatch; full CSIR activation and regulatory reporting likely.</td></tr>
             </tbody>
           </table>
         </div>
@@ -693,6 +740,7 @@
               <div class="flow-node">Document and monitor; notify supervisor</div>
             </div>
           </div>
+          <p class="small">When in doubt, treat events as at least Medium and notify ECS / SOC and your supervisor for triage; under-escalation is riskier than over-escalation.</p>
         </div>
       </div>
       <div class="quick-grid" style="margin-top:12px;">
@@ -752,44 +800,45 @@
         <div class="role-card">
           <h4>Incident Commander</h4>
           <ul>
-            <li>Lead decisions and approvals</li>
-            <li>Coordinate comms and escalation</li>
-            <li>Confirm reportability</li>
+            <li>During containment: approve options balancing safety, reliability, and evidence preservation</li>
+            <li>During recovery: decide when to return systems to service and brief leadership</li>
+            <li>Confirm reportability and escalation timing</li>
           </ul>
         </div>
         <div class="role-card">
           <h4>Technical Lead</h4>
           <ul>
-            <li>Direct containment and recovery</li>
-            <li>Assess operational risk</li>
-            <li>Validate system restoration</li>
+            <li>During detection: validate alerts with ECS / SOC and assess operational risk</li>
+            <li>During containment: direct safe isolation actions</li>
+            <li>During recovery: confirm systems are restored, patched, and monitored</li>
           </ul>
         </div>
         <div class="role-card">
           <h4>Communications Lead</h4>
           <ul>
-            <li>Manage internal and external messaging</li>
-            <li>Coordinate PIO alignment</li>
-            <li>Prevent unauthorized statements</li>
+            <li>During escalation: align internal updates and executive briefings</li>
+            <li>During response: coordinate PIO and external messaging</li>
+            <li>Ensure approved statements and consistent status updates</li>
           </ul>
         </div>
         <div class="role-card">
           <h4>ECS / SOC</h4>
           <ul>
-            <li>Detect and triage incidents</li>
-            <li>Support evidence capture</li>
-            <li>Guide reporting timelines</li>
+            <li>During detection: monitor alerts and triage incidents</li>
+            <li>During response: support evidence capture and containment</li>
+            <li>During follow-up: guide reporting timelines and documentation</li>
           </ul>
         </div>
         <div class="role-card">
           <h4>Compliance Lead</h4>
           <ul>
-            <li>Prepare DOE-417 reporting</li>
-            <li>Audit-ready evidence guidance</li>
-            <li>Track regulatory obligations</li>
+            <li>During response: advise on reportability and DOE-417 drafts</li>
+            <li>During follow-up: ensure audit-ready evidence packages</li>
+            <li>Track regulatory obligations and deadlines</li>
           </ul>
         </div>
       </div>
+      <p class="small" style="margin-top:10px;">Each role’s responsibilities are practiced in the corresponding CSIR training modules; see the modules above for scenarios and knowledge checks.</p>
     </section>
 
     <section class="section-card">
@@ -913,11 +962,22 @@
     const panels = document.querySelectorAll('.tab-panel');
     tabs.forEach((btn) => {
       btn.addEventListener('click', () => {
-        tabs.forEach((t) => t.classList.remove('active'));
-        panels.forEach((p) => p.classList.remove('active'));
+        tabs.forEach((t) => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        panels.forEach((p) => {
+          p.classList.remove('active');
+          p.setAttribute('tabindex', '-1');
+        });
         btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
         const panel = document.getElementById(btn.dataset.tab);
-        if (panel) panel.classList.add('active');
+        if (panel) {
+          panel.classList.add('active');
+          panel.setAttribute('tabindex', '0');
+          panel.focus({ preventScroll: true });
+        }
       });
     });
   </script>
