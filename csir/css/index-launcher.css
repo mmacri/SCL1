@@ -57,6 +57,31 @@
   display: block;
   color: var(--muted-2);
 }
+.quick-nav h3 {
+  margin-top: 0;
+}
+.quick-nav .small {
+  margin: 6px 0 10px;
+  color: var(--muted-2);
+}
+.quick-nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.quick-nav-links a {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  color: #0b1f44;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.quick-nav-links a:hover {
+  background: #e2e8f0;
+}
 .red-phone {
   border-color: #b91c1c;
   background: #fff5f5;
