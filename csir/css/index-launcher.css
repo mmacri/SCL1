@@ -62,28 +62,6 @@
   background: #fff5f5;
   border-left: 4px solid #b91c1c;
 }
-.red-phone-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.red-phone-header h3 {
-  margin: 0;
-}
-.red-phone-icon {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #fee2e2;
-  color: #b91c1c;
-}
-.red-phone-icon svg {
-  width: 16px;
-  height: 16px;
-}
 .certification-info .cert-flow {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
