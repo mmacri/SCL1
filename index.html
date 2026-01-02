@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -139,18 +139,9 @@
   </style>
 </head>
 <body class="page">
-  <header class="header">
-    <div class="header-inner">
-      <div class="brand"><img src="assets/logo.svg" alt="SCL logo">Training Home</div>
-      <nav class="top-nav">
-        <a href="process-deep-dive.html">CSIR Guidance</a>
-        <a href="csir/my-learning.html">Certification</a>
-        <a href="csir/curriculum.html">CSIR Process</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="main-landing">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="include-header" data-base-path="./"></div>
+  <main id="main-content" class="main-landing">
     <div class="hero-intro">
       <div class="pill">Seattle City Light Training home</div>
       <h1 class="section-title">CSIR</h1>
@@ -173,7 +164,7 @@
           <h3>CSIR Guidance</h3>
         </div>
         <p class="section-sub">Fast reference for the CSIR process.</p>
-        <a class="button" href="process-deep-dive.html">Open CSIR Guidance</a>
+        <a class="button" href="courses/csir/process-deep-dive.html">Open CSIR Guidance</a>
       </div>
       <div class="action-card">
         <div class="card-header">
@@ -186,7 +177,7 @@
           <h3>Certification</h3>
         </div>
         <p class="section-sub">Register, resume, and complete certification.</p>
-        <a class="button secondary" href="csir/my-learning.html">Start Certification</a>
+        <a class="button secondary" href="courses/csir/my-learning.html">Start Certification</a>
       </div>
       <div class="action-card">
         <div class="card-header">
@@ -202,18 +193,14 @@
           <h3>CSIR Process</h3>
         </div>
         <p class="section-sub">Browse the full process and escalation flow.</p>
-        <a class="button ghost" href="csir/curriculum.html">View CSIR Process</a>
+        <a class="button secondary" href="courses/csir/curriculum.html">View CSIR Process</a>
       </div>
     </div>
   </main>
-  <footer class="site-footer">
-    <span>Support: OT CSIR Training Team</span>
-    <span>
-      <a href="mailto:csir-training@scl.example">csir-training@scl.example</a>
-      ·
-      <a href="mailto:it-helpdesk@scl.example">it-helpdesk@scl.example</a>
-    </span>
-  </footer>
+  <div id="include-footer" data-base-path="./"></div>
+  <script src="common/load_common.js" data-base-path="./"></script>
 </body>
 </html>
+
+
 

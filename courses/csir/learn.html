@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -44,6 +44,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body class="page course-runner" data-role-label="">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="include-header" data-base-path="../../"></div>
   <script>
     (function() {
       const params = new URLSearchParams(window.location.search);
@@ -55,18 +57,6 @@
       }
     })();
   </script>
-  <header class="header">
-    <div class="header-inner">
-      <div class="brand"><img src="../assets/logo.svg" alt="">SCL OT CSIR Training</div>
-      <div class="footer-actions" style="gap:8px;">
-        <a class="button ghost" href="../index.html">Training home</a>
-        <a class="button secondary" id="backToCurriculum" href="curriculum.html">Back to Course Map</a>
-        <div class="status-pill" id="learnerInfo">Loading...</div>
-        <div class="status-pill" id="courseMeta"></div>
-      </div>
-    </div>
-  </header>
-
   <div class="drawer-toggle"><button id="drawerToggle" class="button secondary">View steps</button></div>
   <div id="drawerOverlay" class="drawer-overlay"></div>
   <div class="app-shell">
@@ -79,7 +69,7 @@
       </aside>
       <aside id="drawerMobile" class="drawer-mobile"></aside>
 
-      <main class="main-content">
+      <main id="main-content" class="main-content">
         <div id="m1" class="module-anchor"></div>
         <div id="m2" class="module-anchor"></div>
         <div id="m3" class="module-anchor"></div>
@@ -90,7 +80,7 @@
         <div class="panel" style="padding:16px; margin-bottom:16px; position:sticky; top:12px; z-index:10;">
           <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
             <div>
-              <div class="pill">Seattle City Light – OT CSIR Training</div>
+              <div class="pill">Seattle City Light â€“ OT CSIR Training</div>
               <h2 id="courseTitle" class="section-title" style="margin:6px 0;">Loading...</h2>
               <p class="section-sub" style="margin:0;">Steps are locked until you complete the current activity. Final exam unlocks the checklist and certificate.</p>
             </div>
@@ -137,5 +127,10 @@
   <script type="module" src="js/storage.js"></script>
   <script type="module" src="js/runtime-sync.js"></script>
   <script type="module" src="js/courseRunner.js"></script>
+  <div id="include-footer" data-base-path="../../"></div>
+  <script src="../../common/load_common.js" data-base-path="../../"></script>
 </body>
 </html>
+
+
+

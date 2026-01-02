@@ -1,4 +1,4 @@
-import { loadProgress, setRole, setLearnerName, setLearnerEmail, setEnrollmentInfo, clearIfDifferentCourse } from './storage.js';
+﻿import { loadProgress, setRole, setLearnerName, setLearnerEmail, setEnrollmentInfo, clearIfDifferentCourse } from './storage.js';
 import { upsertLearner, upsertEnrollment } from './api-client.js';
 
 const moduleStepMap = {
@@ -36,8 +36,10 @@ const threatSegments = document.querySelectorAll('.threat-segment');
 const threatDetail = document.getElementById('threatDetail');
 const roleNameInput = document.getElementById('roleName');
 const roleEmailInput = document.getElementById('roleEmail');
+const modalDismiss = document.querySelector('.modal-close');
 
 let selectedRole = null;
+let lastTrigger = null;
 
 function loadPack() {
   return fetch('./contentpacks/scl-csir/pack.json').then((r) => {
@@ -96,7 +98,14 @@ function initRoleModal(pack) {
   pack.roles.forEach((role) => {
     const card = document.createElement('div');
     card.className = 'role-card';
+    card.tabIndex = 0;
     card.innerHTML = `<h3>${role.label}</h3><p class="small">${role.whoItsFor}</p><div class="role-meta">Est. ${role.estMinutes} minutes</div>`;
+    card.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        card.click();
+      }
+    });
     if (saved === role.id) {
       card.classList.add('selected');
       selectedRole = role.id;
@@ -144,23 +153,60 @@ async function syncLearnerEnrollment() {
   });
 }
 
-function openRoleModal() {
-  if (typeof roleModal.showModal === 'function') {
+function openRoleModal(trigger) {
+  lastTrigger = trigger || document.activeElement;
+  if (typeof roleModal?.showModal === 'function') {
     roleModal.showModal();
-  } else {
+  } else if (roleModal) {
     roleModal.setAttribute('open', 'open');
   }
+  const firstField = roleNameInput || roleModal?.querySelector('input, button, [href], select, textarea');
+  firstField?.focus();
 }
 
 function closeRoleModal() {
+  if (!roleModal) return;
   if (roleModal.open) roleModal.close();
+  roleModal.removeAttribute('open');
+  (lastTrigger || switchRole || remindSwitch)?.focus?.();
+}
+
+function trapFocus(event) {
+  if (!roleModal || event.key !== 'Tab') return;
+  const focusable = Array.from(roleModal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+    .filter((el) => !el.disabled && el.offsetParent !== null);
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
+function handleEsc(event) {
+  if (event.key === 'Escape' && roleModal?.open) {
+    event.preventDefault();
+    closeRoleModal();
+  }
 }
 
 function wireAssumptions() {
   assumptionCards.forEach((card) => {
-    card.addEventListener('click', () => {
+    card.tabIndex = 0;
+    const handleSelect = () => {
       assumptionDetail.style.display = 'block';
       assumptionDetail.textContent = card.dataset.details || '';
+    };
+    card.addEventListener('click', handleSelect);
+    card.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        handleSelect();
+      }
     });
   });
 }
@@ -168,10 +214,18 @@ function wireAssumptions() {
 function wireThreatWheel() {
   if (!threatSegments.length || !threatDetail) return;
   threatSegments.forEach((segment) => {
-    segment.addEventListener('click', () => {
+    segment.tabIndex = 0;
+    const selectSegment = () => {
       threatSegments.forEach((s) => s.classList.remove('active'));
       segment.classList.add('active');
       threatDetail.textContent = segment.dataset.example || '';
+    };
+    segment.addEventListener('click', selectSegment);
+    segment.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        selectSegment();
+      }
     });
   });
 }
@@ -185,6 +239,25 @@ function updateResumeLink(progress) {
     (progress.viewedSteps && progress.viewedSteps.length > 0);
   resumeLink.style.display = hasProgress ? 'inline-flex' : 'none';
 }
+
+function highlightModuleNav() {
+  const hash = window.location.hash || '#module-1';
+  document.querySelectorAll('.curriculum-list a').forEach((link) => {
+    const isActive = link.getAttribute('href') === hash;
+    link.classList.toggle('active', isActive);
+    if (isActive) {
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  });
+}
+
+if (roleModal) {
+  roleModal.addEventListener('keydown', trapFocus);
+}
+document.addEventListener('keydown', handleEsc);
+window.addEventListener('hashchange', highlightModuleNav);
 
 loadPack()
   .then((pack) => {
@@ -215,10 +288,17 @@ loadPack()
     roleEmailInput?.addEventListener('input', validateRoleModal);
 
     [switchRole, remindSwitch].forEach((btn) => {
-      if (btn) btn.addEventListener('click', openRoleModal);
+      if (btn) btn.addEventListener('click', (event) => openRoleModal(event.currentTarget));
     });
 
     if (roleClose) roleClose.addEventListener('click', closeRoleModal);
+    if (modalDismiss) modalDismiss.addEventListener('click', closeRoleModal);
+    if (roleModal) {
+      roleModal.addEventListener('cancel', (event) => {
+        event.preventDefault();
+        closeRoleModal();
+      });
+    }
   })
   .catch((err) => {
     console.error(err);
@@ -227,5 +307,8 @@ loadPack()
     }
   });
 
+highlightModuleNav();
 wireAssumptions();
 wireThreatWheel();
+
+

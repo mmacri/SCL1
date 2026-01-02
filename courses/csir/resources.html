@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,17 +7,9 @@
   <link rel="stylesheet" href="css/theme.css">
 </head>
 <body class="page">
-  <header class="header">
-    <div class="header-inner">
-      <div class="brand"><img src="../assets/logo.svg" alt="SCL">CSIR Resources</div>
-      <div class="footer-actions">
-        <a class="button ghost" href="index.html">Back to Launcher</a>
-        <a class="button secondary" href="curriculum.html">View Curriculum</a>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="include-header" data-base-path="../../"></div>
+  <main id="main-content" class="container">
     <section class="panel card">
       <h1>Help &amp; Audit Etiquette</h1>
       <p class="hero-subtitle">Need guidance on reporting, auditors, or escalation protocols? Use these quick references.</p>
@@ -46,10 +38,16 @@
       </div>
       <div class="footer-actions" style="margin-top:16px;">
         <a class="button" href="curriculum.html#module-5">Open Reporting &amp; Documentation</a>
-        <a class="button ghost" href="curriculum.html#escalation">Escalation flow</a>
-        <a class="button ghost" href="role.html">Update role</a>
+        <a class="button secondary" href="curriculum.html#escalation">Escalation flow</a>
+        <a class="button secondary" href="role.html">Update role</a>
       </div>
     </section>
   </main>
+  <div id="include-footer" data-base-path="../../"></div>
+  <script src="../../common/load_common.js" data-base-path="../../"></script>
 </body>
 </html>
+
+
+
+

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -9,17 +9,9 @@
   <script src="js/api-config.js"></script>
 </head>
 <body class="page">
-  <header class="header">
-    <div class="header-inner">
-      <div class="brand"><img src="../assets/logo.svg" alt="SCL">Learner Identity</div>
-      <div class="footer-actions">
-        <a class="button ghost" href="../index.html">Training home</a>
-        <div class="status-pill">Step 2 of 3</div>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="include-header" data-base-path="../../"></div>
+  <main id="main-content" class="container">
     <section class="panel card form-card">
       <div class="pill">Required</div>
       <h2 class="section-title">Who is completing this training?</h2>
@@ -103,5 +95,10 @@
       window.location.href = 'learn.html';
     });
   </script>
+  <div id="include-footer" data-base-path="../../"></div>
+  <script src="../../common/load_common.js" data-base-path="../../"></script>
 </body>
 </html>
+
+
+

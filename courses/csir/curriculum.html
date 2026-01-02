@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -9,17 +9,14 @@
   <script src="js/api-config.js"></script>
 </head>
 <body class="page curriculum">
-  <header class="header">
-    <div class="header-inner">
-      <div class="brand"><img src="../assets/logo.svg" alt="SCL">SCL OT CSIR Process &amp; Guidance</div>
-      <div class="footer-actions" style="gap:12px;">
-        <a class="button ghost" href="index.html">Back to Launcher</a>
-        <a class="button secondary" href="my-learning.html">My Learning</a>
-      </div>
-    </div>
-  </header>
-
-  <main class="container layout-shell">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="include-header" data-base-path="../../"></div>
+  <main id="main-content" class="container layout-shell" aria-label="CSIR curriculum">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../../index.html">Training Home</a> &rsaquo;
+      <a href="process-deep-dive.html">CSIR Guidance</a> &rsaquo;
+      <span>Curriculum</span>
+    </nav>
     <aside class="curriculum-nav panel">
       <h3>CSIR Curriculum</h3>
       <ol class="curriculum-list">
@@ -39,7 +36,7 @@
         <div class="grid two">
           <div>
             <h3 id="m1-purpose">Purpose &amp; goals</h3>
-            <p>Increase security and resilience across OT networks and critical infrastructure, decreasing illicit cyber activity and improving incident response. Aligned to SCL’s cyber security master policy and NERC CIP standards (CIP‑007‑6, CIP‑008‑6, CIP‑009‑6).</p>
+            <p>Increase security and resilience across OT networks and critical infrastructure, decreasing illicit cyber activity and improving incident response. Aligned to SCLâ€™s cyber security master policy and NERC CIP standards (CIPâ€‘007â€‘6, CIPâ€‘008â€‘6, CIPâ€‘009â€‘6).</p>
             <div class="infographic">
               <div>
                 <h4>Threats &amp; failures</h4>
@@ -90,18 +87,18 @@
           <div>
             <h3>Your selected role</h3>
             <p class="small">Role selection filters required callouts and scenarios.</p>
-            <div id="roleSummary" class="alert">Loading role summary…</div>
+            <div id="roleSummary" class="alert">Loading role summaryâ€¦</div>
             <button class="button secondary" id="remindSwitch">Switch role</button>
           </div>
           <div class="matrix">
             <div class="matrix-row header"><span>Role</span><span>Key responsibilities</span></div>
             <div class="matrix-row"><span>Incident Commander</span><span>Lead CSIR Team, set objectives, ensure reporting on time, oversee ICS use.</span></div>
             <div class="matrix-row"><span>Technical Lead</span><span>Lead technical investigation, refine classification/severity, recommend containment/recovery.</span></div>
-            <div class="matrix-row"><span>ECS</span><span>Maintain CSIR plan, support classification/reportability, support E‑ISAC/CISA reporting, retain evidence.</span></div>
-            <div class="matrix-row"><span>NERC‑CIP Compliance</span><span>Support CIP‑008 and CIP‑003 obligations, maintain compliance evidence, run annual review/tests.</span></div>
-            <div class="matrix-row"><span>CSIR Team Members</span><span>Provide SME input, perform hands‑on tasks, follow incident documentation practices.</span></div>
+            <div class="matrix-row"><span>ECS</span><span>Maintain CSIR plan, support classification/reportability, support Eâ€‘ISAC/CISA reporting, retain evidence.</span></div>
+            <div class="matrix-row"><span>NERCâ€‘CIP Compliance</span><span>Support CIPâ€‘008 and CIPâ€‘003 obligations, maintain compliance evidence, run annual review/tests.</span></div>
+            <div class="matrix-row"><span>CSIR Team Members</span><span>Provide SME input, perform handsâ€‘on tasks, follow incident documentation practices.</span></div>
             <div class="matrix-row"><span>Dispatchers/Control</span><span>Recognize abnormalities, initiate reporting via Service Desk/incident channels, maintain logs.</span></div>
-            <div class="matrix-row"><span>System Owners</span><span>Maintain recovery plans, backups, spare equipment; participate in recovery and follow‑up.</span></div>
+            <div class="matrix-row"><span>System Owners</span><span>Maintain recovery plans, backups, spare equipment; participate in recovery and followâ€‘up.</span></div>
             <div class="matrix-row"><span>All SCL Staff</span><span>Recognize suspicious activity, promptly report suspected incidents, complete annual cyber training.</span></div>
           </div>
         </div>
@@ -110,15 +107,15 @@
             <h3 id="m2-comms">Communications flow</h3>
             <p>Internal notifications move from local OT teams to Incident Commander and Technical Lead, with ECS and Compliance coordinating regulatory messaging. Severe or Tier 1/AtC cases escalate to City IMT and external agencies (E-ISAC, CISA/NCCIC, regulators).</p>
             <div class="rings">
-              <div class="ring inner">Dispatchers • Field Ops • Engineering • System Owners</div>
-              <div class="ring middle">Incident Commander • Technical Lead • ECS • CSIR Team • NERC‑CIP</div>
-              <div class="ring outer">City IMT • Regulatory Affairs • External agencies</div>
+              <div class="ring inner">Dispatchers â€¢ Field Ops â€¢ Engineering â€¢ System Owners</div>
+              <div class="ring middle">Incident Commander â€¢ Technical Lead â€¢ ECS â€¢ CSIR Team â€¢ NERCâ€‘CIP</div>
+              <div class="ring outer">City IMT â€¢ Regulatory Affairs â€¢ External agencies</div>
             </div>
           </div>
           <div>
             <h3>Role-specific prompt</h3>
             <div class="prompt-card">
-              <p class="small">Example (Dispatcher): “You see repeated failed logins on a control system. What is your next step?”</p>
+              <p class="small">Example (Dispatcher): â€œYou see repeated failed logins on a control system. What is your next step?â€</p>
               <ul class="list">
                 <li>Recognize the signal as potential Incident/AtC.</li>
                 <li>Report immediately via CSIR channels (Service Desk/incident bridge).</li>
@@ -128,7 +125,7 @@
           </div>
         </div>
         <div id="escalation" class="banner" style="margin-top:12px;">
-          Tier 1 and AtC notifications route up through the CSIR plan’s incident bridge, Incident Commander, and City IMT escalations before regulators are notified.
+          Tier 1 and AtC notifications route up through the CSIR planâ€™s incident bridge, Incident Commander, and City IMT escalations before regulators are notified.
         </div>
         </div>
 
@@ -139,13 +136,13 @@
           <div>
             <h3>Core definitions</h3>
             <div class="definition-stack">
-              <div class="definition">Cyber Event – unusual activity (e.g., benign scan).</div>
-              <div class="definition">Cyber Security Incident – malicious/suspicious act impacting a cyber asset.</div>
-              <div class="definition">Attempt to Compromise – suspicious activity with little/no immediate impact; still critical.</div>
-              <div class="definition">Reportable Cyber Security Incident – meets mandatory criteria and deadlines.</div>
+              <div class="definition">Cyber Event â€“ unusual activity (e.g., benign scan).</div>
+              <div class="definition">Cyber Security Incident â€“ malicious/suspicious act impacting a cyber asset.</div>
+              <div class="definition">Attempt to Compromise â€“ suspicious activity with little/no immediate impact; still critical.</div>
+              <div class="definition">Reportable Cyber Security Incident â€“ meets mandatory criteria and deadlines.</div>
             </div>
             <div class="ladder">
-              <div>Event → Incident → AtC → Reportable Incident</div>
+              <div>Event â†’ Incident â†’ AtC â†’ Reportable Incident</div>
               <p class="small">Shows how terms overlap as impact and reportability rise.</p>
             </div>
             <h3>Incident categories</h3>
@@ -162,10 +159,10 @@
           <div>
             <h3 id="m3-severity">Severity levels</h3>
             <div class="severity-grid">
-              <div class="severity critical">Critical: cannot provide critical services; significant interruption to electrical power operations; inability to operate/monitor systems; utility‑wide data loss.</div>
+              <div class="severity critical">Critical: cannot provide critical services; significant interruption to electrical power operations; inability to operate/monitor systems; utilityâ€‘wide data loss.</div>
               <div class="severity high">High: moderate interruption of critical services; business continuity at risk; data corruption; active malicious activity on critical systems.</div>
               <div class="severity medium">Medium: loss of critical service to subset; potential impact to adequacy/reliability; detected precursor.</div>
-              <div class="severity low">Low: minimal effect; services available with reduced efficiency; recon/suspicious activity; malware on non‑critical systems.</div>
+              <div class="severity low">Low: minimal effect; services available with reduced efficiency; recon/suspicious activity; malware on nonâ€‘critical systems.</div>
             </div>
             <div class="prompt-card">
               <p class="small">Exercise preview: classify OT narratives by category, severity, AtC vs Incident, and reportability.</p>
@@ -218,7 +215,7 @@
         <div class="grid two">
           <div>
             <h3>Reporting decision tree</h3>
-            <p>For AtC and Tier 1 incidents, submit an initial Cyber Security Incident Response Report to E‑ISAC and NCCIC/CISA within defined deadlines. ECS supports the Incident Commander as Cyber Security Incident Reporter.</p>
+            <p>For AtC and Tier 1 incidents, submit an initial Cyber Security Incident Response Report to Eâ€‘ISAC and NCCIC/CISA within defined deadlines. ECS supports the Incident Commander as Cyber Security Incident Reporter.</p>
             <div class="flowchart">
               <div class="flow-step">Event detected &amp; classified</div>
               <div class="flow-step">Is it AtC or Reportable Incident?</div>
@@ -231,7 +228,7 @@
             <h3>Documentation &amp; evidence</h3>
             <ul class="list">
               <li>Record all incidents in the Cyber Security Incident Log (Tier 2 included).</li>
-              <li>Retention: final reports and data ≥7 years; logs/evidence ≥3 years or longest requirement.</li>
+              <li>Retention: final reports and data â‰¥7 years; logs/evidence â‰¥3 years or longest requirement.</li>
               <li>ECS retains evidence and provides copies for NERC CIP audits.</li>
             </ul>
             <div class="checklist">
@@ -244,9 +241,9 @@
                 <li>Lessons learned / follow-up items</li>
               </ul>
               <div class="timeline-bar">
-                <span>Initial report (≤1 hr)</span>
-                <span>Update (≤7 days)</span>
-                <span>Follow-up (≤90 days)</span>
+                <span>Initial report (â‰¤1 hr)</span>
+                <span>Update (â‰¤7 days)</span>
+                <span>Follow-up (â‰¤90 days)</span>
               </div>
             </div>
           </div>
@@ -255,17 +252,22 @@
       </section>
   </main>
 
-  <dialog id="roleModal" class="modal panel">
-    <h3>Select your role</h3>
-    <p class="small">Choose the role that best fits your responsibilities. Add your name and email to save progress and enable certificates.</p>
+  <div id="include-footer" data-base-path="../../"></div>
+
+  <script src="../../common/load_common.js" data-base-path="../../"></script>
+
+    <dialog id="roleModal" class="modal panel" role="dialog" aria-modal="true" aria-labelledby="roleSelectTitle" aria-describedby="roleSelectCopy">
+    <button class="modal-close" type="button" aria-label="Close dialog">&times;</button>
+    <h2 id="roleSelectTitle">Select your role</h2>
+    <p class="small" id="roleSelectCopy">Choose the role that best fits your responsibilities. Add your name and email to save progress and enable certificates.</p>
     <label for="roleName">Full name</label>
     <input id="roleName" type="text" placeholder="Jane Doe" autocomplete="name" required>
     <label for="roleEmail">Email address</label>
     <input id="roleEmail" type="email" placeholder="jane.doe@example.com" autocomplete="email" required>
     <div id="roleOptions" class="role-grid"></div>
     <div class="footer-actions">
-      <button id="roleClose" class="button secondary">Cancel</button>
-      <button id="roleSave" class="button" disabled>Save role</button>
+      <button id="roleClose" class="button secondary" type="button">Cancel</button>
+      <button id="roleSave" class="button" disabled type="button">Save role</button>
     </div>
   </dialog>
 
@@ -275,6 +277,14 @@
   <script type="module" src="js/index-sync.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 

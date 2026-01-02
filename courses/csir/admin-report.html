@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -24,17 +24,9 @@
   </style>
 </head>
 <body class="page">
-  <header class="header">
-    <div class="header-inner">
-      <div class="brand"><img src="../assets/logo.svg" alt="SCL">Reports</div>
-      <div class="footer-actions">
-        <a class="button ghost" href="index.html">CSIR home</a>
-        <a class="button ghost" href="../index.html">Training home</a>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="include-header" data-base-path="../../"></div>
+  <main id="main-content" class="container">
     <section class="panel card report-grid">
       <div>
         <div class="pill">Reports</div>
@@ -185,5 +177,10 @@
       loadReport();
     })();
   </script>
+  <div id="include-footer" data-base-path="../../"></div>
+  <script src="../../common/load_common.js" data-base-path="../../"></script>
 </body>
 </html>
+
+
+

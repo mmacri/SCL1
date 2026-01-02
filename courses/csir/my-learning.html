@@ -1,27 +1,18 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Learning — SCL OT CSIR</title>
+  <title>My Learning â€” SCL OT CSIR</title>
   <link rel="stylesheet" href="css/theme.css">
 </head>
 <body class="page">
-  <header class="header">
-    <div class="header-inner">
-      <div class="brand"><img src="../assets/logo.svg" alt="SCL">My Learning</div>
-      <div class="footer-actions">
-        <a class="button ghost" href="../index.html">Training home</a>
-        <a class="button ghost" href="index.html">CSIR home</a>
-        <a class="button" href="role.html">Begin/Change Role</a>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="include-header" data-base-path="../../"></div>
+  <main id="main-content" class="container">
     <section class="panel card">
       <div class="pill">Dashboard</div>
-      <h2 class="section-title">Seattle City Light – OT CSIR Training</h2>
+      <h2 class="section-title">Seattle City Light â€“ OT CSIR Training</h2>
       <p class="section-sub">Track status, resume, and re-download your certificate when complete. Progress is stored locally in your browser.</p>
       <div id="statusRow" class="alert">Loading status...</div>
       <div class="footer-actions">
@@ -71,7 +62,7 @@
         }
       }
 
-      statusRow.textContent = `${status} • ${progress.learnerName || 'No name set'} ${progress.roleId ? '• ' + progress.roleId : ''}`;
+      statusRow.textContent = `${status} â€¢ ${progress.learnerName || 'No name set'} ${progress.roleId ? 'â€¢ ' + progress.roleId : ''}`;
       resumeBtn.disabled = false;
       resumeBtn.addEventListener('click', () => window.location.href = resumeTarget);
 
@@ -82,5 +73,10 @@
 
     initDashboard();
   </script>
+  <div id="include-footer" data-base-path="../../"></div>
+  <script src="../../common/load_common.js" data-base-path="../../"></script>
 </body>
 </html>
+
+
+
